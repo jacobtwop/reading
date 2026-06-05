@@ -24,7 +24,6 @@
     --rose-dim: rgba(139,58,82,0.6);
     --rose-faint: rgba(139,58,82,0.1);
     --sage: #4a6741;
-    --sage-faint: rgba(74,103,65,0.1);
     --font-serif: 'Spectral', Georgia, serif;
     --font-sc: 'Spectral SC', Georgia, serif;
   }
@@ -79,7 +78,6 @@
     font-family: var(--font-sc);
     font-size: 22px;
     color: var(--gold);
-    letter-spacing: 0.05em;
   }
 
   @keyframes breathe {
@@ -89,7 +87,7 @@
 
   .boot-title {
     font-family: var(--font-sc);
-    font-size: clamp(18px, 3vw, 26px);
+    font-size: clamp(16px, 3vw, 22px);
     color: var(--gold);
     letter-spacing: 0.15em;
     text-align: center;
@@ -97,11 +95,9 @@
   }
 
   .boot-sub {
-    font-family: var(--font-serif);
     font-size: 14px;
     color: rgba(240,232,216,0.4);
     font-style: italic;
-    letter-spacing: 0.05em;
     text-align: center;
   }
 
@@ -132,7 +128,6 @@
   .site-header {
     text-align: center;
     padding: 0 0 48px;
-    position: relative;
   }
 
   .header-eyebrow {
@@ -140,19 +135,18 @@
     font-size: 10px;
     letter-spacing: 0.3em;
     color: var(--gold-dim);
-    text-transform: uppercase;
     margin-bottom: 20px;
     display: block;
   }
 
   .header-title {
     font-family: var(--font-sc);
-    font-size: clamp(32px, 6vw, 56px);
+    font-size: clamp(30px, 6vw, 52px);
     color: var(--paper);
     font-weight: 400;
     letter-spacing: 0.08em;
     line-height: 1.1;
-    margin-bottom: 12px;
+    margin-bottom: 14px;
   }
 
   .header-title em {
@@ -163,80 +157,20 @@
 
   .header-desc {
     font-size: 16px;
-    color: rgba(240,232,216,0.6);
-    max-width: 46ch;
+    color: rgba(240,232,216,0.55);
+    max-width: 44ch;
     margin: 0 auto 24px;
     font-style: italic;
     line-height: 1.65;
   }
 
-  .header-rule {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    justify-content: center;
-    margin-top: 20px;
-  }
-
-  .header-rule-line {
-    height: 0.5px;
-    width: 80px;
-    background: linear-gradient(90deg, transparent, var(--gold-dim));
-  }
-
-  .header-rule-line.r {
-    background: linear-gradient(90deg, var(--gold-dim), transparent);
-  }
-
-  .header-rule-mark {
-    font-family: var(--font-sc);
-    font-size: 10px;
-    letter-spacing: 0.2em;
+  .ornament {
+    text-align: center;
     color: var(--gold-dim);
+    font-size: 14px;
+    letter-spacing: 0.3em;
+    margin: 20px 0;
   }
-
-  /* ── PROGRESS ── */
-  .progress-track {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 40px;
-    justify-content: center;
-  }
-
-  .progress-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    border: 1px solid rgba(200,150,42,0.3);
-    transition: all 0.4s ease;
-  }
-
-  .progress-dot.done {
-    background: var(--gold);
-    border-color: var(--gold);
-  }
-
-  .progress-dot.active {
-    background: transparent;
-    border-color: var(--gold);
-    box-shadow: 0 0 8px rgba(200,150,42,0.5);
-    animation: pulse-dot 2s ease-in-out infinite;
-  }
-
-  @keyframes pulse-dot {
-    0%, 100% { box-shadow: 0 0 4px rgba(200,150,42,0.4); }
-    50% { box-shadow: 0 0 12px rgba(200,150,42,0.7); }
-  }
-
-  .progress-line {
-    height: 0.5px;
-    width: 24px;
-    background: rgba(200,150,42,0.2);
-    transition: background 0.4s ease;
-  }
-
-  .progress-line.done { background: var(--gold-dim); }
 
   /* ── CHAT ── */
   .chat-area {
@@ -265,11 +199,10 @@
     font-family: var(--font-sc);
     font-size: 9px;
     letter-spacing: 0.2em;
-    text-transform: uppercase;
   }
 
   .msg.school .msg-label { color: var(--gold-dim); }
-  .msg.writer .msg-label { color: rgba(240,232,216,0.3); }
+  .msg.writer .msg-label { color: rgba(240,232,216,0.25); }
 
   .msg-bubble {
     max-width: 78%;
@@ -280,31 +213,27 @@
 
   .msg.school .msg-bubble {
     background: var(--gold-ghost);
-    border: 0.5px solid rgba(200,150,42,0.2);
+    border: 0.5px solid rgba(200,150,42,0.18);
     border-left: 2px solid var(--gold-dim);
     color: var(--paper);
     border-radius: 0 6px 6px 6px;
   }
 
   .msg.writer .msg-bubble {
-    background: rgba(240,232,216,0.04);
-    border: 0.5px solid rgba(240,232,216,0.1);
-    color: rgba(240,232,216,0.7);
+    background: rgba(240,232,216,0.03);
+    border: 0.5px solid rgba(240,232,216,0.08);
+    color: rgba(240,232,216,0.65);
     border-radius: 6px 0 6px 6px;
     font-style: italic;
   }
 
   /* ── TYPING ── */
-  .typing-row {
-    display: none;
-    align-items: flex-start;
-  }
-
+  .typing-row { display: none; align-items: flex-start; }
   .typing-row.on { display: flex; }
 
   .typing-bub {
     background: var(--gold-ghost);
-    border: 0.5px solid rgba(200,150,42,0.2);
+    border: 0.5px solid rgba(200,150,42,0.18);
     border-left: 2px solid var(--gold-dim);
     border-radius: 0 6px 6px 6px;
     padding: 14px 20px;
@@ -314,185 +243,169 @@
   }
 
   .typing-bub span {
-    width: 5px;
-    height: 5px;
+    width: 5px; height: 5px;
     border-radius: 50%;
     background: var(--gold-dim);
     animation: dotup 1.3s ease-in-out infinite;
   }
-
   .typing-bub span:nth-child(2) { animation-delay: 0.2s; }
   .typing-bub span:nth-child(3) { animation-delay: 0.4s; }
 
   @keyframes dotup {
-    0%, 80%, 100% { transform: translateY(0); opacity: 0.35; }
-    40% { transform: translateY(-6px); opacity: 1; }
+    0%,80%,100% { transform:translateY(0); opacity:0.35; }
+    40% { transform:translateY(-6px); opacity:1; }
   }
 
-  /* ── SPREAD CONTAINER ── */
+  /* ── SPREAD ── */
   .spread-wrap {
-    margin: 12px 0;
+    margin: 16px 0 24px;
     animation: fadeUp 0.6s ease;
   }
 
-  .spread-title {
+  .spread-label {
+    text-align: center;
     font-family: var(--font-sc);
-    font-size: 11px;
+    font-size: 10px;
     letter-spacing: 0.25em;
     color: var(--gold-dim);
-    text-align: center;
-    margin-bottom: 32px;
+    margin-bottom: 36px;
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 14px;
     justify-content: center;
   }
 
-  .spread-title-line {
+  .spread-label-line {
     height: 0.5px;
     flex: 1;
+    max-width: 100px;
     background: linear-gradient(90deg, transparent, rgba(200,150,42,0.3));
   }
-
-  .spread-title-line.r {
+  .spread-label-line.r {
     background: linear-gradient(90deg, rgba(200,150,42,0.3), transparent);
   }
 
-  /* ── TAROT CROSS LAYOUT ── */
+  /* 
+    CROSS LAYOUT — simple, reliable table-like approach
+    
+    Row 1: [empty] [TOP]    [empty]
+    Row 2: [LEFT]  [CENTER] [RIGHT]
+    Row 3: [empty] [COVER]  [empty]
+    Row 4: [empty] [PATH]   [empty]
+  */
   .tarot-cross {
     display: grid;
-    grid-template-areas:
-      ". top ."
-      "left center right"
-      ". bottom .";
-    grid-template-columns: 1fr 1.2fr 1fr;
-    grid-template-rows: auto auto auto;
-    gap: 16px;
+    grid-template-columns: 1fr 1.15fr 1fr;
+    grid-template-rows: auto auto auto auto;
+    gap: 14px;
     max-width: 640px;
     margin: 0 auto;
   }
 
-  /* ── TAROT CARD ── */
-  .tarot-card {
-    position: relative;
+  .tc-empty { /* spacer */ }
+
+  /* Card base */
+  .tc-card {
     background: var(--dark);
-    border: 1px solid rgba(200,150,42,0.25);
-    padding: 20px 18px 18px;
+    border: 0.5px solid rgba(200,150,42,0.22);
     border-radius: 4px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    cursor: default;
+    padding: 18px 16px 16px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
   }
 
-  .tarot-card:hover {
+  .tc-card:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.4), 0 0 16px rgba(200,150,42,0.1);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5), 0 0 12px rgba(200,150,42,0.08);
   }
 
-  .tarot-card.center-card {
-    grid-area: center;
-    border-color: rgba(200,150,42,0.45);
+  /* Specific card styles */
+  .tc-state {
+    grid-column: 2; grid-row: 2;
+    border-color: rgba(200,150,42,0.4);
     background: var(--ink);
-    box-shadow: 0 0 30px rgba(200,150,42,0.08);
+    box-shadow: 0 0 24px rgba(200,150,42,0.06);
   }
 
-  .tarot-card.top-card    { grid-area: top; }
-  .tarot-card.left-card   { grid-area: left; }
-  .tarot-card.right-card  { grid-area: right; }
-  .tarot-card.bottom-card { grid-area: bottom; }
-
-  /* Crossing card overlay for center */
-  .tarot-card.crossing-card {
-    grid-area: center;
-    background: rgba(139,58,82,0.08);
-    border-color: rgba(139,58,82,0.35);
-    transform: none;
-    margin-top: -6px;
-    margin-left: 6px;
-    position: relative;
+  .tc-cover {
+    grid-column: 2; grid-row: 3;
+    background: rgba(139,58,82,0.07);
+    border-color: rgba(139,58,82,0.3);
   }
 
-  .tarot-card.crossing-card:hover {
-    transform: rotate(1deg) translateY(-2px);
+  .tc-practice {
+    grid-column: 2; grid-row: 1;
   }
 
-  /* Stack center and crossing */
-  .center-stack {
-    grid-area: center;
+  .tc-reading {
+    grid-column: 3; grid-row: 2;
+  }
+
+  .tc-left-space {
+    grid-column: 1; grid-row: 2;
+    background: transparent;
+    border-color: rgba(200,150,42,0.06);
     display: flex;
-    flex-direction: column;
-    gap: 10px;
+    align-items: center;
+    justify-content: center;
   }
 
-  .card-position {
+  .tc-path {
+    grid-column: 2; grid-row: 4;
+    border-color: rgba(74,103,65,0.35);
+    background: rgba(74,103,65,0.05);
+    text-decoration: none;
+    display: block;
+    color: inherit;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .tc-path:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  }
+
+  /* Card internals */
+  .card-pos {
     font-family: var(--font-sc);
     font-size: 8px;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
+    letter-spacing: 0.22em;
     color: var(--gold-dim);
+    opacity: 0.65;
     margin-bottom: 8px;
-    opacity: 0.7;
   }
 
-  .crossing-card .card-position {
-    color: var(--rose-dim);
-  }
+  .tc-cover .card-pos { color: var(--rose-dim); }
+  .tc-path  .card-pos { color: rgba(74,103,65,0.8); }
 
   .card-name {
     font-family: var(--font-serif);
-    font-size: 15px;
     font-style: italic;
+    font-size: 15px;
     color: var(--gold);
     line-height: 1.3;
     margin-bottom: 10px;
   }
 
-  .center-card .card-name {
-    font-size: 17px;
-  }
-
-  .crossing-card .card-name {
-    color: var(--rose);
-  }
+  .tc-state .card-name { font-size: 17px; }
+  .tc-cover .card-name { color: var(--rose); }
+  .tc-path  .card-name { color: var(--gold); }
 
   .card-rule {
     height: 0.5px;
-    background: rgba(200,150,42,0.2);
+    background: rgba(200,150,42,0.18);
     margin-bottom: 10px;
   }
 
-  .crossing-card .card-rule {
-    background: rgba(139,58,82,0.25);
-  }
+  .tc-cover .card-rule { background: rgba(139,58,82,0.2); }
+  .tc-path  .card-rule { background: rgba(74,103,65,0.2); }
 
   .card-text {
     font-size: 13.5px;
     line-height: 1.65;
-    color: rgba(240,232,216,0.75);
+    color: rgba(240,232,216,0.72);
   }
 
-  /* ── RECOMMENDATION CARD ── */
-  .rec-card {
-    background: var(--dark);
-    border: 0.5px solid rgba(200,150,42,0.25);
-    border-top: 2px solid var(--gold);
-    padding: 24px;
-    border-radius: 4px;
-    grid-area: bottom;
-    text-decoration: none;
-    display: block;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-
-  .rec-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-  }
-
-  .rec-card .card-position { color: var(--sage); opacity: 0.8; }
-  .rec-card .card-name { color: var(--gold); }
-  .rec-card .card-rule { background: rgba(200,150,42,0.15); }
-
-  .rec-cta {
+  .card-cta {
     display: inline-block;
     margin-top: 12px;
     font-family: var(--font-sc);
@@ -503,30 +416,33 @@
     padding-bottom: 2px;
   }
 
-  /* ── INPUT ── */
-  .input-area {
-    margin-top: 8px;
+  .sigil-mark {
+    font-size: 28px;
+    color: rgba(200,150,42,0.12);
+    font-family: var(--font-sc);
   }
+
+  /* ── INPUT ── */
+  .input-area { margin-top: 8px; }
 
   .input-label {
     font-family: var(--font-sc);
     font-size: 9px;
     letter-spacing: 0.2em;
-    color: rgba(200,150,42,0.4);
+    color: rgba(200,150,42,0.35);
     margin-bottom: 8px;
     display: block;
   }
 
   .input-row {
     display: flex;
-    gap: 0;
     align-items: stretch;
   }
 
   #user-input {
     flex: 1;
     background: rgba(240,232,216,0.03);
-    border: 0.5px solid rgba(240,232,216,0.12);
+    border: 0.5px solid rgba(240,232,216,0.1);
     border-right: none;
     padding: 13px 18px;
     font-family: var(--font-serif);
@@ -542,25 +458,24 @@
   }
 
   #user-input:focus {
-    border-color: rgba(200,150,42,0.35);
-    background: rgba(200,150,42,0.03);
+    border-color: rgba(200,150,42,0.3);
+    background: rgba(200,150,42,0.025);
   }
 
   #user-input::placeholder {
-    color: rgba(240,232,216,0.2);
+    color: rgba(240,232,216,0.18);
     font-style: italic;
   }
 
   #send-btn {
     background: var(--gold-faint);
-    border: 0.5px solid rgba(200,150,42,0.35);
+    border: 0.5px solid rgba(200,150,42,0.3);
     border-left: none;
     padding: 13px 20px;
     font-family: var(--font-sc);
     font-size: 10px;
     font-weight: 600;
     letter-spacing: 0.15em;
-    text-transform: uppercase;
     color: var(--gold);
     cursor: pointer;
     white-space: nowrap;
@@ -568,115 +483,63 @@
     border-radius: 0 3px 3px 0;
   }
 
-  #send-btn:hover { background: rgba(200,150,42,0.15); }
+  #send-btn:hover { background: rgba(200,150,42,0.14); }
   #send-btn:disabled { opacity: 0.25; cursor: not-allowed; }
-
-  /* ── DIVIDER ── */
-  .ornament {
-    text-align: center;
-    margin: 16px 0;
-    font-size: 12px;
-    color: rgba(200,150,42,0.2);
-    letter-spacing: 0.3em;
-  }
 
   /* ── FOOTER ── */
   .site-footer {
     margin-top: 64px;
     padding-top: 24px;
-    border-top: 0.5px solid rgba(200,150,42,0.15);
+    border-top: 0.5px solid rgba(200,150,42,0.12);
     text-align: center;
     font-size: 12px;
-    color: rgba(240,232,216,0.25);
+    color: rgba(240,232,216,0.22);
     font-style: italic;
-    line-height: 1.9;
+    line-height: 2;
   }
 
-  .site-footer a {
-    color: rgba(200,150,42,0.4);
-    text-decoration: none;
-  }
-
+  .site-footer a { color: rgba(200,150,42,0.35); text-decoration: none; }
   .site-footer a:hover { color: var(--gold); }
 
-  @media (max-width: 600px) {
-    #app { padding: 32px 16px 60px; }
-
+  /* Mobile */
+  @media (max-width: 580px) {
     .tarot-cross {
-      grid-template-areas:
-        "top"
-        "center"
-        "crossing"
-        "left"
-        "right"
-        "bottom";
       grid-template-columns: 1fr;
+      grid-template-rows: auto;
     }
-
-    .center-stack {
-      grid-area: unset;
-      display: contents;
-    }
-
-    .tarot-card.center-card { grid-area: center; }
-    .tarot-card.crossing-card { grid-area: crossing; }
-    .tarot-card.top-card { grid-area: top; }
-    .tarot-card.left-card { grid-area: left; }
-    .tarot-card.right-card { grid-area: right; }
-    .rec-card { grid-area: bottom; }
-
-    .msg-bubble { max-width: 92%; }
+    .tc-state    { grid-column:1; grid-row:1; }
+    .tc-cover    { grid-column:1; grid-row:2; }
+    .tc-practice { grid-column:1; grid-row:3; }
+    .tc-reading  { grid-column:1; grid-row:4; }
+    .tc-left-space { display:none; }
+    .tc-path     { grid-column:1; grid-row:5; }
+    .msg-bubble  { max-width:92%; }
   }
 </style>
 </head>
 <body>
 
-<!-- BOOT -->
 <div id="boot">
-  <div class="boot-sigil">
-    <div class="boot-sigil-inner">✦</div>
-  </div>
+  <div class="boot-sigil"><div class="boot-sigil-inner">✦</div></div>
   <div class="boot-rule"></div>
   <div class="boot-title">A Rough Trade Writing School</div>
   <div class="boot-sub">The Wild Reading</div>
 </div>
 
-<!-- APP -->
 <div id="app">
   <header class="site-header">
     <span class="header-eyebrow">A Rough Trade Writing School</span>
     <h1 class="header-title">The <em>Wild</em> Reading</h1>
-    <p class="header-desc">A writer's diagnostic. Five questions, then a spread laid just for you.</p>
-    <div class="header-rule">
-      <div class="header-rule-line"></div>
-      <span class="header-rule-mark">✦</span>
-      <div class="header-rule-line r"></div>
-    </div>
+    <p class="header-desc">A conversation, then a spread. No countdown. No form. Just talk.</p>
+    <div class="ornament">✦ ✦ ✦</div>
   </header>
 
-  <!-- PROGRESS -->
-  <div class="progress-track" id="progress-track">
-    <div class="progress-dot active" id="dot-0"></div>
-    <div class="progress-line" id="line-0"></div>
-    <div class="progress-dot" id="dot-1"></div>
-    <div class="progress-line" id="line-1"></div>
-    <div class="progress-dot" id="dot-2"></div>
-    <div class="progress-line" id="line-2"></div>
-    <div class="progress-dot" id="dot-3"></div>
-    <div class="progress-line" id="line-3"></div>
-    <div class="progress-dot" id="dot-4"></div>
-  </div>
-
-  <!-- CHAT -->
   <div class="chat-area" id="chat-area">
     <div class="typing-row" id="typing">
-      <div class="typing-bub">
-        <span></span><span></span><span></span>
-      </div>
+      <div class="typing-bub"><span></span><span></span><span></span></div>
     </div>
   </div>
 
-  <!-- INPUT -->
   <div class="input-area">
     <span class="input-label">Your answer</span>
     <div class="input-row">
@@ -686,9 +549,9 @@
   </div>
 
   <footer class="site-footer">
-    <a href="https://arough.trade">A Rough Trade Writing School</a> · 
-    <a href="https://arough.trade/chains">The Chains</a> · 
-    <a href="https://stagandbirch.com/collection/wild-magic">The Shop</a> · 
+    <a href="https://arough.trade">A Rough Trade Writing School</a> ·
+    <a href="https://arough.trade/chains">The Chains</a> ·
+    <a href="https://stagandbirch.com/collection/wild-magic">The Shop</a> ·
     <a href="https://patreon.com/jacobtwop">The School</a>
   </footer>
 </div>
@@ -697,376 +560,91 @@
 const PROXY_URL = '/.netlify/functions/chat';
 const MODEL = 'claude-sonnet-4-5';
 
-const SYSTEM = `You are the intake reader for A Rough Trade Writing School — Jacob Clifton's literary writing school. You conduct The Wild Reading: a five-question diagnostic conversation that ends with a personalized tarot spread laid for the writer.
+const SYSTEM = `You are the intake reader for A Rough Trade Writing School — Jacob Clifton's literary writing school. You conduct The Wild Reading: an open, unscripted conversation with a writer that ends in a five-card tarot spread laid specifically for them.
 
 YOUR VOICE:
-Literary, specific, warm without being saccharine. You hold contradiction comfortably. You speak like someone who has read widely, thought deeply, and come out the other side willing to tell the complicated truth instead of the easy answer. You do not flatter. You do not hype. You clarify.
+Literary, specific, warm without sentimentality. You hold contradiction comfortably. You sound like someone who has read widely, thought deeply, and come out willing to tell the complicated truth rather than the easy one. You do not flatter. You do not hype. You ask questions that make the writer think differently about their situation just by answering them.
 
-You use em dashes for asides and pauses. Short declarative sentences for impact. Varied rhythm — never uniform. Dry wit delivered through phrasing, not announced. You never say "ensure," "landscape," "leverage," "innovative," or any AI tell. You never oversimplify human experience.
+Em dashes for asides. Short declarative sentences for impact. Varied rhythm — never uniform. Dry wit through phrasing, not announcement. Never: "ensure," "landscape," "leverage," "in today's world," "it's not just X it's Y," or any AI tell. Never oversimplify human experience.
 
-The voice asks questions that make the writer think differently about their situation just by answering them. It's interested in the writer in the way a good teacher is interested — not performing interest, actually having it.
+THE CONVERSATION:
+This is not a form. You don't ask a numbered list of questions. You have a real conversation — you follow threads, ask follow-ups when something genuinely opens up, and let the writer take you somewhere unexpected. You are building a picture of who this writer is and where they actually are, not collecting answers.
 
-THE FIVE QUESTIONS — ask one at a time, wait for each answer:
+You are looking for five things, but you find them through conversation, not interrogation:
+1. What they're working on — and whether they're actually working on it
+2. When writing last felt real to them — the specific circumstances
+3. The story they tell themselves about why they're not further along
+4. What they'd write if they stopped protecting the work
+5. What kind of help they actually respond to — structure, permission, company, a mirror, a kick
 
-Q1: "What are you working on right now — and be honest about whether you're actually working on it, or just carrying it around."
+You don't have to ask about these in order. You don't have to ask about them directly. A good conversation surfaces them without announcing it.
 
-Q2: "When did writing last feel like the thing itself, rather than the thing you were supposed to be doing? What were the circumstances?"
+When you have a clear enough picture — usually after 6-10 exchanges, use your judgment — tell them you're ready to lay the spread. Say something like "I think I have what I need." Then produce the spread.
 
-Q3: "What's the story you tell yourself about why you're not further along?"
+WHAT MAKES A GOOD READING:
+The cards must not summarize what the writer said. They must go underneath it.
 
-Q4: "If you stopped protecting the work — from judgment, from failure, from being seen — what would you actually write?"
+The State card names what's actually true, not what the writer described as their situation. If they said "I'm blocked," the card isn't about being blocked — it's about what the block is protecting.
 
-Q5: "What kind of help do you actually respond to? Structure, permission, company, a mirror, a kick?"
+The Covering card names the root, not the symptom. If they said "I'm afraid of judgment," the covering card isn't "Fear of Judgment" — it's the specific, older thing underneath that fear. The card that surprises them.
 
-After each answer, you may ask one brief follow-up if something genuinely interesting opens up — something specific they said that deserves a thread pulled. One follow-up maximum. Don't follow up just to seem engaged. If their answer is complete and clear, move to the next question.
+The Practice card gives one specific, counterintuitive prescription. Not "write every day." Something they wouldn't have thought of. Something slightly wrong-seeming that clicks.
 
-After Q5, tell them you have what you need. Then produce the spread, wrapped in [SPREAD_START] and [SPREAD_END] tags.
+The Reading card names one book, essay, or piece of writing — specific title, specific author — that feels slightly random but is somehow exactly right for this writer at this moment. Not the obvious recommendation. The one that makes them go "why that?"
 
-CRITICAL: You MUST produce the spread wrapped in [SPREAD_START] and [SPREAD_END] tags. Never produce it as plain text. Never summarize. Always output the complete spread.
+The Path Forward card names the ART School offer that actually fits where they are. Be direct about the match and specific about why this one and not another.
 
-THE SPREAD FORMAT — produce valid JSON between the tags:
+OFFER ROUTING:
+- Chain 1 (The Life) or Chain 8 (Practice): no consistent practice, writing in the margins
+- Chain 2 (The Craft): sentences aren't landing, technical insecurity
+- Chain 3 (The Secrets): avoids the business side, doesn't know what the work is worth
+- Chain 4 (The Eye): can't tell if the work is good, reads too little, needs critical judgment
+- Chain 5 (Voice): knows what they want to write but sounds like someone else on the page
+- Chain 6 (Narrative): fiction that isn't holding together, structure problems
+- Chain 7 (World): building fictional worlds, wants inhabited specificity
+- The Herbal/Grimoire/Deck (books): intuitive learners, work best alone, resist structure, respond to oblique approaches
+- The School (Patreon): ready for sustained development, want community and feedback
+
+READING PRESCRIPTION GUIDANCE — go for the unexpected right book:
+For the perfectionist who can't finish: "The Ongoing Moment" by Geoff Dyer
+For the blocked writer who thinks the problem is craft: "A Field Guide to Getting Lost" by Rebecca Solnit
+For the writer who sounds like someone else: "The Poetics of Space" by Gaston Bachelard
+For the writer who doesn't trust their own material: "Let the Great World Spin" by Colum McCann
+For the writer avoiding the hard subject: "The Empathy Exams" by Leslie Jamison
+For the fiction writer who can't make their world feel real: "Housekeeping" by Marilynne Robinson
+For the writer in a dry spell: "The Rings of Saturn" by W.G. Sebald
+For the writer who overthinks: "Pilgrim at Tinker Creek" by Annie Dillard
+For the writer who needs permission: any Mary Oliver collected — but specify which one and why
+For the writer too close to their material: "The Year of Magical Thinking" by Joan Didion
+These are examples. Use your judgment. The right book is the one that's slightly wrong-seeming but exactly right.
+
+CRITICAL: Produce the spread wrapped in [SPREAD_START] and [SPREAD_END] tags. The content between the tags must be valid JSON and nothing else — no preamble, no markdown fences, just the JSON object.
 
 [SPREAD_START]
 {
   "state": {
-    "name": "[An evocative tarot-style card name — specific to this writer, poetic, 2-5 words — e.g. 'The Unfinished Letter' or 'The Circling Hawk']",
-    "text": "[2-3 sentences. What this writer's actual state is right now. Not what they said — what you heard underneath what they said. Specific. Literary. No flattery.]"
+    "name": "[Evocative card name — 2-5 words, poetic, specific to this writer — e.g. 'The Unfinished Letter' or 'The Long Argument']",
+    "text": "[2-3 sentences. What is actually true about this writer's state — not what they said, what you heard underneath. Surprising. Specific. No flattery.]"
   },
   "covering": {
-    "name": "[An evocative card name for what's in the way — e.g. 'The Borrowed Voice' or 'The Waiting Room']",
-    "text": "[2 sentences. The specific thing covering their voice — named plainly, held with warmth but without softening. Based directly on what they told you.]"
+    "name": "[Card name for what's covering the voice — names the root, not the symptom]",
+    "text": "[2 sentences. The specific thing underneath the problem they described. The thing that surprises them a little. Warm but unsparing.]"
   },
   "practice": {
-    "name": "[Card name for the practice prescription — e.g. 'The Daily Threshold' or 'The Small Fire']",
-    "text": "[1-2 sentences. One concrete practice prescription — specific to their situation, not generic. What to actually do, based on what kind of help they said they respond to.]"
+    "name": "[Card name for the practice prescription]",
+    "text": "[1-2 sentences. One counterintuitive, specific practice prescription. Not generic. Something slightly unexpected that clicks.]"
   },
   "reading": {
-    "name": "[Card name for the reading prescription — e.g. 'The Necessary Book' or 'The Borrowed Light']",
-    "text": "[1-2 sentences. One book, essay, or piece of writing they should read right now, and exactly why this one for this writer at this moment. Be specific. Name the actual work.]"
+    "name": "[Card name for the reading prescription]",
+    "text": "[2 sentences. The specific book — title and author — and exactly why this one for this writer at this moment. Make it feel slightly unexpected but exactly right.]"
   },
   "path": {
-    "name": "[Card name for their path — e.g. 'The Open Chain' or 'The First Door']",
-    "text": "[2 sentences. The specific ART School offer that fits where they are right now, and why this one. Be direct about the match.]",
-    "offer": "[one of: 'chains', 'books', 'school']",
-    "chain": "[if offer is 'chains': the specific chain name e.g. 'Chain 5: Voice' — otherwise null]"
+    "name": "[Card name for their path forward]",
+    "text": "[2 sentences. The specific offer and why this one for them right now. Direct.]",
+    "offer": "[one of: chains, books, school]",
+    "chain": "[if offer is chains: specific chain e.g. 'Chain 5: Voice' — otherwise null]"
   }
 }
 [SPREAD_END]
 
-OFFER ROUTING GUIDE — use this to match writer state to offer:
-
-chains → For writers who need a contained, focused entry point. A specific chain when their block has a clear match:
-- Chain 1 (The Life) or Chain 8 (Practice): no consistent practice, writing in the margins, can't make it stick
-- Chain 2 (The Craft): sentences aren't landing, technical insecurity, wants to feel the mechanics
-- Chain 3 (The Secrets): doesn't know what their work is worth, avoids the business side entirely
-- Chain 4 (The Eye): can't tell if their work is good, needs critical judgment, reads too little
-- Chain 5 (Voice): knows what they want to write but sounds like someone else on the page
-- Chain 6 (Narrative): working on fiction, stories aren't holding together, structure is the problem
-- Chain 7 (World): building fictional worlds, wants inhabited specificity
-- Chain 8 (Practice): ready to make writing a condition of being, not just an activity
-
-books → For writers who work best alone with a physical companion; want something to return to rather than a course; intuitive learners who resist structure but respond to oblique approaches. Route to books/deck.
-
-school → For writers who are ready to commit to real ongoing development; want community and feedback; have a practice but need sustained engagement. Route to Patreon.
-
-READING PRESCRIPTION GUIDANCE:
-Be specific. Name the actual book. Some options calibrated to different states:
-- Voice/identity: "A Thousand Plateaus" by Deleuze & Guattari (on becoming), "The Argonauts" by Maggie Nelson, "Bluets" by Maggie Nelson
-- Practice/showing up: "The War of Art" by Pressfield, "Bird by Bird" by Lamott, "Writing Down the Bones" by Goldberg
-- Narrative/structure: "Story" by McKee, "The Art of Fiction" by Gardner, "Steering the Craft" by Le Guin
-- Permission/voice: "Big Magic" by Gilbert, "The Artist's Way" by Cameron, any Mary Oliver essay collection
-- Literary models: recommend a specific fiction title that models what they're trying to do, based on what they said they want to write
-- For the blocked: "The Creative Habit" by Twyla Tharp, "Imaginative Writing" by Janet Burroway
-
-After producing the spread, stay available. You can answer questions about the School, the Chains, or their writing situation.
-
-START: Open with two sentences — warm, specific, literary. Don't introduce yourself as an AI or a system. Just begin, as the School. Then ask Q1.`;
-
-let history = [];
-let spreadGenerated = false;
-let isLoading = false;
-let questionCount = 0;
-
-function updateProgress(n) {
-  for (let i = 0; i < 5; i++) {
-    const dot = document.getElementById('dot-' + i);
-    const line = document.getElementById('line-' + i);
-    if (dot) dot.className = 'progress-dot' + (i < n ? ' done' : i === n ? ' active' : '');
-    if (line) line.className = 'progress-line' + (i < n ? ' done' : '');
-  }
-}
-
-function scrollBottom() {
-  const area = document.getElementById('chat-area');
-  requestAnimationFrame(() => { area.scrollTop = area.scrollHeight; });
-}
-
-function showTyping(on) {
-  document.getElementById('typing').className = 'typing-row' + (on ? ' on' : '');
-  if (on) scrollBottom();
-}
-
-function addMsg(role, text) {
-  const area = document.getElementById('chat-area');
-  const typing = document.getElementById('typing');
-  const div = document.createElement('div');
-  div.className = 'msg ' + (role === 'assistant' ? 'school' : 'writer');
-  const lbl = document.createElement('div');
-  lbl.className = 'msg-label';
-  lbl.textContent = role === 'assistant' ? 'The School' : 'You';
-  const bub = document.createElement('div');
-  bub.className = 'msg-bubble';
-  bub.innerHTML = text.replace(/\n/g, '<br>');
-  div.appendChild(lbl);
-  div.appendChild(bub);
-  area.insertBefore(div, typing);
-  scrollBottom();
-
-  if (role === 'assistant') {
-    const qMatches = ['Q1','Q2','Q3','Q4','Q5'].filter(q =>
-      history.some(m => m.role === 'assistant' && m.content && m.content.includes(q))
-    );
-    updateProgress(Math.min(qMatches.length, 4));
-  }
-}
-
-function extractSpread(text) {
-  const s = text.search(/\[SPREAD_START\]/i);
-  const e = text.search(/\[SPREAD_END\]/i);
-  if (s !== -1 && e !== -1 && e > s) {
-    return {
-      json: text.slice(s + 13, e).trim(),
-      before: text.slice(0, s).trim(),
-      after: text.slice(e + 11).trim()
-    };
-  }
-  return null;
-}
-
-const OFFER_URLS = {
-  chains: 'https://arough.trade/chains',
-  books: 'https://stagandbirch.com/collection/wild-magic',
-  school: 'https://patreon.com/jacobtwop'
-};
-
-const OFFER_LABELS = {
-  chains: 'Find your Chain →',
-  books: 'Visit the Shop →',
-  school: 'Join the School →'
-};
-
-function buildSpread(data) {
-  const wrap = document.createElement('div');
-  wrap.className = 'spread-wrap';
-
-  const titleEl = document.createElement('div');
-  titleEl.className = 'spread-title';
-  titleEl.innerHTML = '<div class="spread-title-line"></div><span>Your Reading</span><div class="spread-title-line r"></div>';
-  wrap.appendChild(titleEl);
-
-  const cross = document.createElement('div');
-  cross.className = 'tarot-cross';
-
-  // Top card — Practice
-  cross.appendChild(buildCard('top-card', 'The Practice', data.practice));
-
-  // Center stack — State + Covering
-  const centerStack = document.createElement('div');
-  centerStack.className = 'center-stack';
-  centerStack.appendChild(buildCard('center-card', 'Your State', data.state, true));
-  centerStack.appendChild(buildCard('crossing-card', 'What Covers It', data.covering, false, true));
-  cross.appendChild(centerStack);
-
-  // Right card — Reading
-  cross.appendChild(buildCard('right-card', 'The Reading', data.reading));
-
-  // Left card — (spacer / additional context if needed, reuse practice position)
-  const leftSpacer = document.createElement('div');
-  leftSpacer.className = 'tarot-card left-card';
-  leftSpacer.style.cssText = 'display:flex; align-items:center; justify-content:center; background: transparent; border-color: rgba(200,150,42,0.08);';
-  leftSpacer.innerHTML = '<span style="font-family:var(--font-sc); font-size:32px; color:rgba(200,150,42,0.15); letter-spacing:0.1em;">✦</span>';
-  cross.appendChild(leftSpacer);
-
-  // Bottom card — Path (with link)
-  cross.appendChild(buildPathCard(data.path));
-
-  wrap.appendChild(cross);
-  return wrap;
-}
-
-function buildCard(className, position, cardData, isCenter, isCrossing) {
-  const card = document.createElement('div');
-  card.className = 'tarot-card ' + className;
-
-  const pos = document.createElement('div');
-  pos.className = 'card-position';
-  pos.textContent = position;
-  card.appendChild(pos);
-
-  const name = document.createElement('div');
-  name.className = 'card-name';
-  name.textContent = cardData.name || '';
-  card.appendChild(name);
-
-  const rule = document.createElement('div');
-  rule.className = 'card-rule';
-  card.appendChild(rule);
-
-  const text = document.createElement('div');
-  text.className = 'card-text';
-  text.textContent = cardData.text || '';
-  card.appendChild(text);
-
-  return card;
-}
-
-function buildPathCard(pathData) {
-  const url = OFFER_URLS[pathData.offer] || OFFER_URLS.chains;
-  const label = OFFER_LABELS[pathData.offer] || OFFER_LABELS.chains;
-
-  const card = document.createElement('a');
-  card.className = 'rec-card tarot-card';
-  card.href = url;
-  card.target = '_blank';
-  card.rel = 'noopener';
-
-  const pos = document.createElement('div');
-  pos.className = 'card-position';
-  pos.textContent = 'The Path Forward';
-  card.appendChild(pos);
-
-  const name = document.createElement('div');
-  name.className = 'card-name';
-  name.textContent = pathData.name || '';
-  card.appendChild(name);
-
-  const rule = document.createElement('div');
-  rule.className = 'card-rule';
-  card.appendChild(rule);
-
-  const text = document.createElement('div');
-  text.className = 'card-text';
-  let fullText = pathData.text || '';
-  if (pathData.chain) fullText += '\n\n' + pathData.chain + '.';
-  text.textContent = fullText;
-  card.appendChild(text);
-
-  const cta = document.createElement('span');
-  cta.className = 'rec-cta';
-  cta.textContent = label;
-  card.appendChild(cta);
-
-  return card;
-}
-
-function insertSpread(spreadData) {
-  const area = document.getElementById('chat-area');
-  const typing = document.getElementById('typing');
-  let parsed;
-  try {
-    // Strip everything before the first { and after the last }
-    const firstBrace = spreadData.indexOf('{');
-    const lastBrace = spreadData.lastIndexOf('}');
-    if (firstBrace === -1 || lastBrace === -1) throw new Error('No JSON object found');
-    const clean = spreadData.slice(firstBrace, lastBrace + 1);
-    parsed = JSON.parse(clean);
-  } catch (e) {
-    addMsg('assistant', 'The spread is ready, but something went wrong rendering it. ' + e.message);
-    console.error('Spread parse error:', e, spreadData);
-    return;
-  }
-  const spreadEl = buildSpread(parsed);
-  area.insertBefore(spreadEl, typing);
-  updateProgress(5);
-  scrollBottom();
-}
-
-async function send(userText, silent) {
-  if (isLoading) return;
-  isLoading = true;
-  document.getElementById('send-btn').disabled = true;
-
-  if (userText && !silent) {
-    history.push({ role: 'user', content: userText });
-    addMsg('user', userText);
-  } else if (userText && silent) {
-    history.push({ role: 'user', content: userText });
-  }
-
-  showTyping(true);
-
-  try {
-    const res = await fetch(PROXY_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ model: MODEL, max_tokens: 1500, system: SYSTEM, messages: history })
-    });
-
-    const data = await res.json();
-    showTyping(false);
-
-    if (data.error) {
-      addMsg('assistant', 'Something went wrong. ' + (data.error.message || ''));
-      isLoading = false;
-      document.getElementById('send-btn').disabled = false;
-      return;
-    }
-
-    const block = data.content && data.content.find(b => b.type === 'text');
-    if (!block) throw new Error('no text');
-    const raw = block.text;
-
-    const spread = extractSpread(raw);
-    if (spread && !spreadGenerated) {
-      spreadGenerated = true;
-      if (spread.before) addMsg('assistant', spread.before);
-      history.push({ role: 'assistant', content: raw });
-      setTimeout(() => {
-        insertSpread(spread.json);
-        if (spread.after) setTimeout(() => addMsg('assistant', spread.after), 500);
-      }, 400);
-    } else {
-      addMsg('assistant', raw);
-      history.push({ role: 'assistant', content: raw });
-    }
-
-  } catch (err) {
-    showTyping(false);
-    addMsg('assistant', 'Something interrupted the reading. Try again in a moment.');
-    console.error(err);
-  }
-
-  isLoading = false;
-  document.getElementById('send-btn').disabled = false;
-}
-
-const input = document.getElementById('user-input');
-input.addEventListener('input', function() {
-  this.style.height = 'auto';
-  this.style.height = Math.min(this.scrollHeight, 140) + 'px';
-});
-input.addEventListener('keydown', function(e) {
-  if (e.key === 'Enter' && !e.shiftKey) {
-    e.preventDefault();
-    const v = this.value.trim();
-    if (v) { this.value = ''; this.style.height = 'auto'; send(v, false); }
-  }
-});
-document.getElementById('send-btn').addEventListener('click', () => {
-  const v = input.value.trim();
-  if (v) { input.value = ''; input.style.height = 'auto'; send(v, false); }
-});
-
-// Boot
-setTimeout(() => {
-  document.getElementById('boot').classList.add('out');
-  setTimeout(() => {
-    document.getElementById('boot').style.display = 'none';
-    document.getElementById('app').classList.add('visible');
-    history.push({ role: 'user', content: '[SYSTEM: A writer has arrived for their Wild Reading. Open with two sentences — warm, literary, specific. Then ask Q1.]' });
-    send(null, true);
-  }, 1200);
-}, 2800);
-</script>
-</body>
-</html>
+START: Open with one sentence — literary, warm, specific. Not an introduction. Just the beginning of a conversation. Then ask your first question.`;
