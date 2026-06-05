@@ -648,3 +648,245 @@ CRITICAL: Produce the spread wrapped in [SPREAD_START] and [SPREAD_END] tags. Th
 [SPREAD_END]
 
 START: Open with one sentence — literary, warm, specific. Not an introduction. Just the beginning of a conversation. Then ask your first question.`;
+
+let history = [];
+let spreadGenerated = false;
+let isLoading = false;
+
+const OFFER_URLS = {
+  chains: 'https://arough.trade/chains',
+  books: 'https://stagandbirch.com/collection/wild-magic',
+  school: 'https://patreon.com/jacobtwop'
+};
+
+const OFFER_LABELS = {
+  chains: 'Find your Chain →',
+  books: 'Visit the Shop →',
+  school: 'Join the School →'
+};
+
+function scrollBottom() {
+  const area = document.getElementById('chat-area');
+  requestAnimationFrame(() => { area.scrollTop = area.scrollHeight; });
+}
+
+function showTyping(on) {
+  document.getElementById('typing').className = 'typing-row' + (on ? ' on' : '');
+  if (on) scrollBottom();
+}
+
+function addMsg(role, text) {
+  const area = document.getElementById('chat-area');
+  const typing = document.getElementById('typing');
+  const div = document.createElement('div');
+  div.className = 'msg ' + (role === 'assistant' ? 'school' : 'writer');
+  const lbl = document.createElement('div');
+  lbl.className = 'msg-label';
+  lbl.textContent = role === 'assistant' ? 'The School' : 'You';
+  const bub = document.createElement('div');
+  bub.className = 'msg-bubble';
+  bub.innerHTML = text.replace(/\n/g, '<br>');
+  div.appendChild(lbl);
+  div.appendChild(bub);
+  area.insertBefore(div, typing);
+  scrollBottom();
+}
+
+function extractSpread(text) {
+  const s = text.search(/\[SPREAD_START\]/i);
+  const e = text.search(/\[SPREAD_END\]/i);
+  if (s !== -1 && e !== -1 && e > s) {
+    return {
+      json: text.slice(s + 13, e).trim(),
+      before: text.slice(0, s).trim(),
+      after: text.slice(e + 11).trim()
+    };
+  }
+  return null;
+}
+
+function makeCard(cls, posLabel, cardData, isLink, linkUrl, linkLabel) {
+  const el = isLink ? document.createElement('a') : document.createElement('div');
+  el.className = 'tc-card ' + cls;
+  if (isLink) {
+    el.href = linkUrl;
+    el.target = '_blank';
+    el.rel = 'noopener';
+  }
+
+  const pos = document.createElement('div');
+  pos.className = 'card-pos';
+  pos.textContent = posLabel;
+  el.appendChild(pos);
+
+  const name = document.createElement('div');
+  name.className = 'card-name';
+  name.textContent = cardData.name || '';
+  el.appendChild(name);
+
+  const rule = document.createElement('div');
+  rule.className = 'card-rule';
+  el.appendChild(rule);
+
+  const text = document.createElement('div');
+  text.className = 'card-text';
+  let content = cardData.text || '';
+  if (cardData.chain) content += '\n\n' + cardData.chain + '.';
+  text.textContent = content;
+  el.appendChild(text);
+
+  if (isLink && linkLabel) {
+    const cta = document.createElement('span');
+    cta.className = 'card-cta';
+    cta.textContent = linkLabel;
+    el.appendChild(cta);
+  }
+
+  return el;
+}
+
+function buildSpread(data) {
+  const wrap = document.createElement('div');
+  wrap.className = 'spread-wrap';
+
+  const lbl = document.createElement('div');
+  lbl.className = 'spread-label';
+  lbl.innerHTML = '<div class="spread-label-line"></div><span>Your Reading</span><div class="spread-label-line r"></div>';
+  wrap.appendChild(lbl);
+
+  const cross = document.createElement('div');
+  cross.className = 'tarot-cross';
+
+  // Row 1: Practice (top of cross)
+  cross.appendChild(makeCard('tc-practice', 'The Practice', data.practice));
+
+  // Row 2: Left space | State (center) | Reading (right arm)
+  const leftSpace = document.createElement('div');
+  leftSpace.className = 'tc-card tc-left-space';
+  leftSpace.innerHTML = '<span class="sigil-mark">✦</span>';
+  cross.appendChild(leftSpace);
+
+  cross.appendChild(makeCard('tc-state', 'Your State', data.state));
+  cross.appendChild(makeCard('tc-reading', 'The Reading', data.reading));
+
+  // Row 3: Covering (below state)
+  cross.appendChild(makeCard('tc-cover', 'What Covers It', data.covering));
+
+  // Row 4: Path (bottom)
+  const offerKey = data.path.offer || 'chains';
+  cross.appendChild(makeCard('tc-path', 'The Path Forward', data.path, true, OFFER_URLS[offerKey], OFFER_LABELS[offerKey]));
+
+  wrap.appendChild(cross);
+  return wrap;
+}
+
+function insertSpread(jsonStr) {
+  const area = document.getElementById('chat-area');
+  const typing = document.getElementById('typing');
+
+  let parsed;
+  try {
+    const firstBrace = jsonStr.indexOf('{');
+    const lastBrace = jsonStr.lastIndexOf('}');
+    if (firstBrace === -1 || lastBrace === -1) throw new Error('No JSON found');
+    parsed = JSON.parse(jsonStr.slice(firstBrace, lastBrace + 1));
+  } catch(e) {
+    addMsg('assistant', 'The spread is ready, but something went wrong rendering it. ' + e.message);
+    console.error('Parse error:', e, jsonStr);
+    return;
+  }
+
+  const spreadEl = buildSpread(parsed);
+  area.insertBefore(spreadEl, typing);
+  scrollBottom();
+}
+
+async function send(userText, silent) {
+  if (isLoading) return;
+  isLoading = true;
+  document.getElementById('send-btn').disabled = true;
+
+  if (userText && !silent) {
+    history.push({ role: 'user', content: userText });
+    addMsg('user', userText);
+  } else if (userText && silent) {
+    history.push({ role: 'user', content: userText });
+  }
+
+  showTyping(true);
+
+  try {
+    const res = await fetch(PROXY_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ model: MODEL, max_tokens: 1500, system: SYSTEM, messages: history })
+    });
+
+    const data = await res.json();
+    showTyping(false);
+
+    if (data.error) {
+      addMsg('assistant', 'Something went wrong. ' + (data.error.message || ''));
+      isLoading = false;
+      document.getElementById('send-btn').disabled = false;
+      return;
+    }
+
+    const block = data.content && data.content.find(b => b.type === 'text');
+    if (!block) throw new Error('no text');
+    const raw = block.text;
+
+    const spread = extractSpread(raw);
+    if (spread && !spreadGenerated) {
+      spreadGenerated = true;
+      if (spread.before) addMsg('assistant', spread.before);
+      history.push({ role: 'assistant', content: raw });
+      setTimeout(() => {
+        insertSpread(spread.json);
+        if (spread.after) setTimeout(() => addMsg('assistant', spread.after), 500);
+      }, 400);
+    } else {
+      addMsg('assistant', raw);
+      history.push({ role: 'assistant', content: raw });
+    }
+
+  } catch(err) {
+    showTyping(false);
+    addMsg('assistant', 'Something interrupted the reading. Try again in a moment.');
+    console.error(err);
+  }
+
+  isLoading = false;
+  document.getElementById('send-btn').disabled = false;
+}
+
+const input = document.getElementById('user-input');
+input.addEventListener('input', function() {
+  this.style.height = 'auto';
+  this.style.height = Math.min(this.scrollHeight, 140) + 'px';
+});
+input.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    const v = this.value.trim();
+    if (v) { this.value = ''; this.style.height = 'auto'; send(v, false); }
+  }
+});
+document.getElementById('send-btn').addEventListener('click', () => {
+  const v = input.value.trim();
+  if (v) { input.value = ''; input.style.height = 'auto'; send(v, false); }
+});
+
+// Boot
+setTimeout(() => {
+  document.getElementById('boot').classList.add('out');
+  setTimeout(() => {
+    document.getElementById('boot').style.display = 'none';
+    document.getElementById('app').classList.add('visible');
+    history.push({ role: 'user', content: '[SYSTEM: A writer has arrived. Begin with one sentence — literary, warm, the start of a real conversation. Then ask your first question naturally.]' });
+    send(null, true);
+  }, 1200);
+}, 2800);
+</script>
+</body>
+</html>
