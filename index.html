@@ -964,7 +964,11 @@ function insertSpread(spreadData) {
   const typing = document.getElementById('typing');
   let parsed;
   try {
-    const clean = spreadData.replace(/```json|```/g, '').trim();
+    // Strip everything before the first { and after the last }
+    const firstBrace = spreadData.indexOf('{');
+    const lastBrace = spreadData.lastIndexOf('}');
+    if (firstBrace === -1 || lastBrace === -1) throw new Error('No JSON object found');
+    const clean = spreadData.slice(firstBrace, lastBrace + 1);
     parsed = JSON.parse(clean);
   } catch (e) {
     addMsg('assistant', 'The spread is ready, but something went wrong rendering it. ' + e.message);
