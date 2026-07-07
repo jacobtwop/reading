@@ -5,576 +5,508 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Wild Reading — A Rough Trade Writing School</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Spectral+SC:wght@400;600&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --black: #0d0b09;
-    --dark: #1a1510;
-    --ink: #2a2218;
-    --paper: #f0e8d8;
-    --paper-dark: #d8ccb4;
-    --cream: #faf5ec;
-    --gold: #c8962a;
-    --gold-dim: rgba(200,150,42,0.6);
-    --gold-faint: rgba(200,150,42,0.1);
-    --gold-ghost: rgba(200,150,42,0.05);
-    --rose: #8b3a52;
-    --rose-dim: rgba(139,58,82,0.6);
-    --rose-faint: rgba(139,58,82,0.1);
-    --sage: #4a6741;
-    --font-serif: 'Spectral', Georgia, serif;
-    --font-sc: 'Spectral SC', Georgia, serif;
-  }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--black);
-    color: var(--paper);
-    font-family: var(--font-serif);
-    min-height: 100vh;
-    line-height: 1.7;
-  }
-
-  /* ── BOOT ── */
-  #boot {
-    position: fixed;
-    inset: 0;
-    background: var(--black);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 28px;
-    z-index: 999;
-    transition: opacity 1.2s ease;
-  }
-
-  #boot.out { opacity: 0; pointer-events: none; }
-
-  .boot-sigil {
-    width: 80px;
-    height: 80px;
-    border: 1px solid var(--gold-dim);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    animation: breathe 4s ease-in-out infinite;
-  }
-
-  .boot-sigil::before {
-    content: '';
-    position: absolute;
-    inset: 6px;
-    border: 0.5px solid rgba(200,150,42,0.3);
-    border-radius: 50%;
-  }
-
-  .boot-sigil-inner {
-    font-family: var(--font-sc);
-    font-size: 22px;
-    color: var(--gold);
-  }
-
-  @keyframes breathe {
-    0%, 100% { opacity: 0.5; transform: scale(1); }
-    50% { opacity: 1; transform: scale(1.03); }
-  }
-
-  .boot-title {
-    font-family: var(--font-sc);
-    font-size: clamp(16px, 3vw, 22px);
-    color: var(--gold);
-    letter-spacing: 0.15em;
-    text-align: center;
-    font-weight: 400;
-  }
-
-  .boot-sub {
-    font-size: 14px;
-    color: rgba(240,232,216,0.4);
-    font-style: italic;
-    text-align: center;
-  }
-
-  .boot-rule {
-    width: 120px;
-    height: 0.5px;
-    background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
-    animation: shimmer 2s ease-in-out infinite;
-  }
-
-  @keyframes shimmer {
-    0%, 100% { opacity: 0.3; }
-    50% { opacity: 1; }
-  }
-
-  /* ── APP ── */
-  #app {
-    max-width: 720px;
-    margin: 0 auto;
-    padding: 48px 24px 80px;
-    opacity: 0;
-    transition: opacity 1s ease;
-  }
-
-  #app.visible { opacity: 1; }
-
-  /* ── HEADER ── */
-  .site-header {
-    text-align: center;
-    padding: 0 0 48px;
-  }
-
-  .header-eyebrow {
-    font-family: var(--font-sc);
-    font-size: 10px;
-    letter-spacing: 0.3em;
-    color: var(--gold-dim);
-    margin-bottom: 20px;
-    display: block;
-  }
-
-  .header-title {
-    font-family: var(--font-sc);
-    font-size: clamp(30px, 6vw, 52px);
-    color: var(--paper);
-    font-weight: 400;
-    letter-spacing: 0.08em;
-    line-height: 1.1;
-    margin-bottom: 14px;
-  }
-
-  .header-title em {
-    color: var(--gold);
-    font-style: italic;
-    font-family: var(--font-serif);
-  }
-
-  .header-desc {
-    font-size: 16px;
-    color: rgba(240,232,216,0.55);
-    max-width: 44ch;
-    margin: 0 auto 24px;
-    font-style: italic;
-    line-height: 1.65;
-  }
-
-  .ornament {
-    text-align: center;
-    color: var(--gold-dim);
-    font-size: 14px;
-    letter-spacing: 0.3em;
-    margin: 20px 0;
-  }
-
-  /* ── CHAT ── */
-  .chat-area {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    margin-bottom: 28px;
-  }
-
-  .msg {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    animation: fadeUp 0.5s ease;
-  }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(10px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  .msg.school { align-items: flex-start; }
-  .msg.writer { align-items: flex-end; }
-
-  .msg-label {
-    font-family: var(--font-sc);
-    font-size: 9px;
-    letter-spacing: 0.2em;
-  }
-
-  .msg.school .msg-label { color: var(--gold-dim); }
-  .msg.writer .msg-label { color: rgba(240,232,216,0.25); }
-
-  .msg-bubble {
-    max-width: 78%;
-    padding: 14px 20px;
-    font-size: 16px;
-    line-height: 1.7;
-  }
-
-  .msg.school .msg-bubble {
-    background: var(--gold-ghost);
-    border: 0.5px solid rgba(200,150,42,0.18);
-    border-left: 2px solid var(--gold-dim);
-    color: var(--paper);
-    border-radius: 0 6px 6px 6px;
-  }
-
-  .msg.writer .msg-bubble {
-    background: rgba(240,232,216,0.03);
-    border: 0.5px solid rgba(240,232,216,0.08);
-    color: rgba(240,232,216,0.65);
-    border-radius: 6px 0 6px 6px;
-    font-style: italic;
-  }
-
-  /* ── TYPING ── */
-  .typing-row { display: none; align-items: flex-start; }
-  .typing-row.on { display: flex; }
-
-  .typing-bub {
-    background: var(--gold-ghost);
-    border: 0.5px solid rgba(200,150,42,0.18);
-    border-left: 2px solid var(--gold-dim);
-    border-radius: 0 6px 6px 6px;
-    padding: 14px 20px;
-    display: flex;
-    gap: 6px;
-    align-items: center;
-  }
-
-  .typing-bub span {
-    width: 5px; height: 5px;
-    border-radius: 50%;
-    background: var(--gold-dim);
-    animation: dotup 1.3s ease-in-out infinite;
-  }
-  .typing-bub span:nth-child(2) { animation-delay: 0.2s; }
-  .typing-bub span:nth-child(3) { animation-delay: 0.4s; }
-
-  @keyframes dotup {
-    0%,80%,100% { transform:translateY(0); opacity:0.35; }
-    40% { transform:translateY(-6px); opacity:1; }
-  }
-
-  /* ── SPREAD ── */
-  .spread-wrap {
-    margin: 16px 0 24px;
-    animation: fadeUp 0.6s ease;
-  }
-
-  .spread-label {
-    text-align: center;
-    font-family: var(--font-sc);
-    font-size: 10px;
-    letter-spacing: 0.25em;
-    color: var(--gold-dim);
-    margin-bottom: 36px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    justify-content: center;
-  }
-
-  .spread-label-line {
-    height: 0.5px;
-    flex: 1;
-    max-width: 100px;
-    background: linear-gradient(90deg, transparent, rgba(200,150,42,0.3));
-  }
-  .spread-label-line.r {
-    background: linear-gradient(90deg, rgba(200,150,42,0.3), transparent);
-  }
-
-  /* 
-    CROSS LAYOUT — simple, reliable table-like approach
-    
-    Row 1: [empty] [TOP]    [empty]
-    Row 2: [LEFT]  [CENTER] [RIGHT]
-    Row 3: [empty] [COVER]  [empty]
-    Row 4: [empty] [PATH]   [empty]
-  */
-  .tarot-cross {
-    display: grid;
-    grid-template-columns: 1fr 1.15fr 1fr;
-    grid-template-rows: auto auto auto auto;
-    gap: 14px;
-    max-width: 640px;
-    margin: 0 auto;
-  }
-
-  .tc-empty { /* spacer */ }
-
-  /* Card base */
-  .tc-card {
-    background: var(--dark);
-    border: 0.5px solid rgba(200,150,42,0.22);
-    border-radius: 4px;
-    padding: 18px 16px 16px;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
-  }
-
-  .tc-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.5), 0 0 12px rgba(200,150,42,0.08);
-  }
-
-  /* Specific card styles */
-  .tc-state {
-    grid-column: 2; grid-row: 2;
-    border-color: rgba(200,150,42,0.4);
-    background: var(--ink);
-    box-shadow: 0 0 24px rgba(200,150,42,0.06);
-  }
-
-  .tc-cover {
-    grid-column: 2; grid-row: 3;
-    background: rgba(139,58,82,0.07);
-    border-color: rgba(139,58,82,0.3);
-  }
-
-  .tc-practice {
-    grid-column: 2; grid-row: 1;
-  }
-
-  .tc-reading {
-    grid-column: 3; grid-row: 2;
-  }
-
-  .tc-left-space {
-    grid-column: 1; grid-row: 2;
-    background: transparent;
-    border-color: rgba(200,150,42,0.06);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .tc-path {
-    grid-column: 2; grid-row: 4;
-    border-color: rgba(74,103,65,0.35);
-    background: rgba(74,103,65,0.05);
-    text-decoration: none;
-    display: block;
-    color: inherit;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
-  }
-
-  .tc-path:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
-  }
-
-  /* Card internals */
-  .card-pos {
-    font-family: var(--font-sc);
-    font-size: 8px;
-    letter-spacing: 0.22em;
-    color: var(--gold-dim);
-    opacity: 0.65;
-    margin-bottom: 8px;
-  }
-
-  .tc-cover .card-pos { color: var(--rose-dim); }
-  .tc-path  .card-pos { color: rgba(74,103,65,0.8); }
-
-  .card-name {
-    font-family: var(--font-serif);
-    font-style: italic;
-    font-size: 15px;
-    color: var(--gold);
-    line-height: 1.3;
-    margin-bottom: 10px;
-  }
-
-  .tc-state .card-name { font-size: 17px; }
-  .tc-cover .card-name { color: var(--rose); }
-  .tc-path  .card-name { color: var(--gold); }
-
-  .card-rule {
-    height: 0.5px;
-    background: rgba(200,150,42,0.18);
-    margin-bottom: 10px;
-  }
-
-  .tc-cover .card-rule { background: rgba(139,58,82,0.2); }
-  .tc-path  .card-rule { background: rgba(74,103,65,0.2); }
-
-  .card-text {
-    font-size: 13.5px;
-    line-height: 1.65;
-    color: rgba(240,232,216,0.72);
-  }
-
-  .card-cta {
-    display: inline-block;
-    margin-top: 12px;
-    font-family: var(--font-sc);
-    font-size: 10px;
-    letter-spacing: 0.2em;
-    color: var(--gold);
-    border-bottom: 0.5px solid var(--gold-dim);
-    padding-bottom: 2px;
-  }
-
-  .sigil-mark {
-    font-size: 28px;
-    color: rgba(200,150,42,0.12);
-    font-family: var(--font-sc);
-  }
-
-  /* ── INPUT ── */
-  .input-area { margin-top: 8px; }
-
-  .input-label {
-    font-family: var(--font-sc);
-    font-size: 9px;
-    letter-spacing: 0.2em;
-    color: rgba(200,150,42,0.35);
-    margin-bottom: 8px;
-    display: block;
-  }
-
-  .input-row {
-    display: flex;
-    align-items: stretch;
-  }
-
-  #user-input {
-    flex: 1;
-    background: rgba(240,232,216,0.03);
-    border: 0.5px solid rgba(240,232,216,0.1);
-    border-right: none;
-    padding: 13px 18px;
-    font-family: var(--font-serif);
-    font-size: 16px;
-    color: var(--paper);
-    resize: none;
-    min-height: 50px;
-    max-height: 140px;
-    outline: none;
-    line-height: 1.55;
-    transition: border-color 0.2s;
-    border-radius: 3px 0 0 3px;
-  }
-
-  #user-input:focus {
-    border-color: rgba(200,150,42,0.3);
-    background: rgba(200,150,42,0.025);
-  }
-
-  #user-input::placeholder {
-    color: rgba(240,232,216,0.18);
-    font-style: italic;
-  }
-
-  #send-btn {
-    background: var(--gold-faint);
-    border: 0.5px solid rgba(200,150,42,0.3);
-    border-left: none;
-    padding: 13px 20px;
-    font-family: var(--font-sc);
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.15em;
-    color: var(--gold);
-    cursor: pointer;
-    white-space: nowrap;
-    transition: background 0.2s;
-    border-radius: 0 3px 3px 0;
-  }
-
-  #send-btn:hover { background: rgba(200,150,42,0.14); }
-  #send-btn:disabled { opacity: 0.25; cursor: not-allowed; }
-
-  /* ── FOOTER ── */
-  .site-footer {
-    margin-top: 64px;
-    padding-top: 24px;
-    border-top: 0.5px solid rgba(200,150,42,0.12);
-    text-align: center;
-    font-size: 12px;
-    color: rgba(240,232,216,0.22);
-    font-style: italic;
-    line-height: 2;
-  }
-
-  .site-footer a { color: rgba(200,150,42,0.35); text-decoration: none; }
-  .site-footer a:hover { color: var(--gold); }
-
-  /* Mobile */
-  @media (max-width: 580px) {
-    .tarot-cross {
-      grid-template-columns: 1fr;
-      grid-template-rows: auto;
-    }
-    .tc-state    { grid-column:1; grid-row:1; }
-    .tc-cover    { grid-column:1; grid-row:2; }
-    .tc-practice { grid-column:1; grid-row:3; }
-    .tc-reading  { grid-column:1; grid-row:4; }
-    .tc-left-space { display:none; }
-    .tc-path     { grid-column:1; grid-row:5; }
-    .msg-bubble  { max-width:92%; }
-  }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+--black: #0d0b09;
+--dark: #1a1510;
+--ink: #2a2218;
+--paper: #f0e8d8;
+--paper-dark: #d8ccb4;
+--cream: #faf5ec;
+--gold: #c8962a;
+--gold-dim: rgba(200,150,42,0.6);
+--gold-faint: rgba(200,150,42,0.1);
+--gold-ghost: rgba(200,150,42,0.05);
+--rose: #8b3a52;
+--rose-dim: rgba(139,58,82,0.6);
+--rose-faint: rgba(139,58,82,0.1);
+--sage: #4a6741;
+--font-serif: 'Spectral', Georgia, serif;
+--font-sc: 'Spectral SC', Georgia, serif;
+}
+html { scroll-behavior: smooth; }
+body {
+background: var(--black);
+color: var(--paper);
+font-family: var(--font-serif);
+min-height: 100vh;
+line-height: 1.7;
+}
+/* ── BOOT ── */
+#boot {
+position: fixed;
+inset: 0;
+background: var(--black);
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+gap: 28px;
+z-index: 999;
+transition: opacity 1.2s ease;
+}
+#boot.out { opacity: 0; pointer-events: none; }
+.boot-sigil {
+width: 80px;
+height: 80px;
+border: 1px solid var(--gold-dim);
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+position: relative;
+animation: breathe 4s ease-in-out infinite;
+}
+.boot-sigil::before {
+content: '';
+position: absolute;
+inset: 6px;
+border: 0.5px solid rgba(200,150,42,0.3);
+border-radius: 50%;
+}
+.boot-sigil-inner {
+font-family: var(--font-sc);
+font-size: 22px;
+color: var(--gold);
+}
+@keyframes breathe {
+0%, 100% { opacity: 0.5; transform: scale(1); }
+50% { opacity: 1; transform: scale(1.03); }
+}
+.boot-title {
+font-family: var(--font-sc);
+font-size: clamp(16px, 3vw, 22px);
+color: var(--gold);
+letter-spacing: 0.15em;
+text-align: center;
+font-weight: 400;
+}
+.boot-sub {
+font-size: 14px;
+color: rgba(240,232,216,0.4);
+font-style: italic;
+text-align: center;
+}
+.boot-rule {
+width: 120px;
+height: 0.5px;
+background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+animation: shimmer 2s ease-in-out infinite;
+}
+@keyframes shimmer {
+0%, 100% { opacity: 0.3; }
+50% { opacity: 1; }
+}
+/* ── APP ── */
+#app {
+max-width: 720px;
+margin: 0 auto;
+padding: 48px 24px 80px;
+opacity: 0;
+transition: opacity 1s ease;
+}
+#app.visible { opacity: 1; }
+/* ── HEADER ── */
+.site-header {
+text-align: center;
+padding: 0 0 48px;
+}
+.header-eyebrow {
+font-family: var(--font-sc);
+font-size: 10px;
+letter-spacing: 0.3em;
+color: var(--gold-dim);
+margin-bottom: 20px;
+display: block;
+}
+.header-title {
+font-family: var(--font-sc);
+font-size: clamp(30px, 6vw, 52px);
+color: var(--paper);
+font-weight: 400;
+letter-spacing: 0.08em;
+line-height: 1.1;
+margin-bottom: 14px;
+}
+.header-title em {
+color: var(--gold);
+font-style: italic;
+font-family: var(--font-serif);
+}
+.header-desc {
+font-size: 16px;
+color: rgba(240,232,216,0.55);
+max-width: 44ch;
+margin: 0 auto 24px;
+font-style: italic;
+line-height: 1.65;
+}
+.ornament {
+text-align: center;
+color: var(--gold-dim);
+font-size: 14px;
+letter-spacing: 0.3em;
+margin: 20px 0;
+}
+/* ── CHAT ── */
+.chat-area {
+display: flex;
+flex-direction: column;
+gap: 24px;
+margin-bottom: 28px;
+}
+.msg {
+display: flex;
+flex-direction: column;
+gap: 5px;
+animation: fadeUp 0.5s ease;
+}
+@keyframes fadeUp {
+from { opacity: 0; transform: translateY(10px); }
+to { opacity: 1; transform: translateY(0); }
+}
+.msg.school { align-items: flex-start; }
+.msg.writer { align-items: flex-end; }
+.msg-label {
+font-family: var(--font-sc);
+font-size: 9px;
+letter-spacing: 0.2em;
+}
+.msg.school .msg-label { color: var(--gold-dim); }
+.msg.writer .msg-label { color: rgba(240,232,216,0.25); }
+.msg-bubble {
+max-width: 78%;
+padding: 14px 20px;
+font-size: 16px;
+line-height: 1.7;
+}
+.msg.school .msg-bubble {
+background: var(--gold-ghost);
+border: 0.5px solid rgba(200,150,42,0.18);
+border-left: 2px solid var(--gold-dim);
+color: var(--paper);
+border-radius: 0 6px 6px 6px;
+}
+.msg.writer .msg-bubble {
+background: rgba(240,232,216,0.03);
+border: 0.5px solid rgba(240,232,216,0.08);
+color: rgba(240,232,216,0.65);
+border-radius: 6px 0 6px 6px;
+font-style: italic;
+}
+/* ── TYPING ── */
+.typing-row { display: none; align-items: flex-start; }
+.typing-row.on { display: flex; }
+.typing-bub {
+background: var(--gold-ghost);
+border: 0.5px solid rgba(200,150,42,0.18);
+border-left: 2px solid var(--gold-dim);
+border-radius: 0 6px 6px 6px;
+padding: 14px 20px;
+display: flex;
+gap: 6px;
+align-items: center;
+}
+.typing-bub span {
+width: 5px; height: 5px;
+border-radius: 50%;
+background: var(--gold-dim);
+animation: dotup 1.3s ease-in-out infinite;
+}
+.typing-bub span:nth-child(2) { animation-delay: 0.2s; }
+.typing-bub span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes dotup {
+0%,80%,100% { transform:translateY(0); opacity:0.35; }
+40% { transform:translateY(-6px); opacity:1; }
+}
+/* ── SPREAD ── */
+.spread-wrap {
+margin: 16px 0 24px;
+animation: fadeUp 0.6s ease;
+}
+.spread-label {
+text-align: center;
+font-family: var(--font-sc);
+font-size: 10px;
+letter-spacing: 0.25em;
+color: var(--gold-dim);
+margin-bottom: 36px;
+display: flex;
+align-items: center;
+gap: 14px;
+justify-content: center;
+}
+.spread-label-line {
+height: 0.5px;
+flex: 1;
+max-width: 100px;
+background: linear-gradient(90deg, transparent, rgba(200,150,42,0.3));
+}
+.spread-label-line.r {
+background: linear-gradient(90deg, rgba(200,150,42,0.3), transparent);
+}
+/*
+CROSS LAYOUT — simple, reliable table-like approach
+Row 1: [empty] [TOP] [empty]
+Row 2: [LEFT] [CENTER] [RIGHT]
+Row 3: [empty] [COVER] [empty]
+Row 4: [empty] [PATH] [empty]
+*/
+.tarot-cross {
+display: grid;
+grid-template-columns: 1fr 1.15fr 1fr;
+grid-template-rows: auto auto auto auto;
+gap: 14px;
+max-width: 640px;
+margin: 0 auto;
+}
+.tc-empty { /* spacer */ }
+/* Card base */
+.tc-card {
+background: var(--dark);
+border: 0.5px solid rgba(200,150,42,0.22);
+border-radius: 4px;
+padding: 18px 16px 16px;
+transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.tc-card:hover {
+transform: translateY(-3px);
+box-shadow: 0 8px 24px rgba(0,0,0,0.5), 0 0 12px rgba(200,150,42,0.08);
+}
+/* Specific card styles */
+.tc-state {
+grid-column: 2; grid-row: 2;
+border-color: rgba(200,150,42,0.4);
+background: var(--ink);
+box-shadow: 0 0 24px rgba(200,150,42,0.06);
+}
+.tc-cover {
+grid-column: 2; grid-row: 3;
+background: rgba(139,58,82,0.07);
+border-color: rgba(139,58,82,0.3);
+}
+.tc-practice {
+grid-column: 2; grid-row: 1;
+}
+.tc-reading {
+grid-column: 3; grid-row: 2;
+}
+.tc-left-space {
+grid-column: 1; grid-row: 2;
+background: transparent;
+border-color: rgba(200,150,42,0.06);
+display: flex;
+align-items: center;
+justify-content: center;
+}
+.tc-path {
+grid-column: 2; grid-row: 4;
+border-color: rgba(74,103,65,0.35);
+background: rgba(74,103,65,0.05);
+text-decoration: none;
+display: block;
+color: inherit;
+transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.tc-path:hover {
+transform: translateY(-3px);
+box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+}
+/* Card internals */
+.card-pos {
+font-family: var(--font-sc);
+font-size: 8px;
+letter-spacing: 0.22em;
+color: var(--gold-dim);
+opacity: 0.65;
+margin-bottom: 8px;
+}
+.tc-cover .card-pos { color: var(--rose-dim); }
+.tc-path .card-pos { color: rgba(74,103,65,0.8); }
+.card-name {
+font-family: var(--font-serif);
+font-style: italic;
+font-size: 15px;
+color: var(--gold);
+line-height: 1.3;
+margin-bottom: 10px;
+}
+.tc-state .card-name { font-size: 17px; }
+.tc-cover .card-name { color: var(--rose); }
+.tc-path .card-name { color: var(--gold); }
+.card-rule {
+height: 0.5px;
+background: rgba(200,150,42,0.18);
+margin-bottom: 10px;
+}
+.tc-cover .card-rule { background: rgba(139,58,82,0.2); }
+.tc-path .card-rule { background: rgba(74,103,65,0.2); }
+.card-text {
+font-size: 13.5px;
+line-height: 1.65;
+color: rgba(240,232,216,0.72);
+}
+.card-cta {
+display: inline-block;
+margin-top: 12px;
+font-family: var(--font-sc);
+font-size: 10px;
+letter-spacing: 0.2em;
+color: var(--gold);
+border-bottom: 0.5px solid var(--gold-dim);
+padding-bottom: 2px;
+}
+.sigil-mark {
+font-size: 28px;
+color: rgba(200,150,42,0.12);
+font-family: var(--font-sc);
+}
+/* ── INPUT ── */
+.input-area { margin-top: 8px; }
+.input-label {
+font-family: var(--font-sc);
+font-size: 9px;
+letter-spacing: 0.2em;
+color: rgba(200,150,42,0.35);
+margin-bottom: 8px;
+display: block;
+}
+.input-row {
+display: flex;
+align-items: stretch;
+}
+#user-input {
+flex: 1;
+background: rgba(240,232,216,0.03);
+border: 0.5px solid rgba(240,232,216,0.1);
+border-right: none;
+padding: 13px 18px;
+font-family: var(--font-serif);
+font-size: 16px;
+color: var(--paper);
+resize: none;
+min-height: 50px;
+max-height: 140px;
+outline: none;
+line-height: 1.55;
+transition: border-color 0.2s;
+border-radius: 3px 0 0 3px;
+}
+#user-input:focus {
+border-color: rgba(200,150,42,0.3);
+background: rgba(200,150,42,0.025);
+}
+#user-input::placeholder {
+color: rgba(240,232,216,0.18);
+font-style: italic;
+}
+#send-btn {
+background: var(--gold-faint);
+border: 0.5px solid rgba(200,150,42,0.3);
+border-left: none;
+padding: 13px 20px;
+font-family: var(--font-sc);
+font-size: 10px;
+font-weight: 600;
+letter-spacing: 0.15em;
+color: var(--gold);
+cursor: pointer;
+white-space: nowrap;
+transition: background 0.2s;
+border-radius: 0 3px 3px 0;
+}
+#send-btn:hover { background: rgba(200,150,42,0.14); }
+#send-btn:disabled { opacity: 0.25; cursor: not-allowed; }
+/* ── FOOTER ── */
+.site-footer {
+margin-top: 64px;
+padding-top: 24px;
+border-top: 0.5px solid rgba(200,150,42,0.12);
+text-align: center;
+font-size: 12px;
+color: rgba(240,232,216,0.22);
+font-style: italic;
+line-height: 2;
+}
+.site-footer a { color: rgba(200,150,42,0.35); text-decoration: none; }
+.site-footer a:hover { color: var(--gold); }
+/* Mobile */
+@media (max-width: 580px) {
+.tarot-cross {
+grid-template-columns: 1fr;
+grid-template-rows: auto;
+}
+.tc-state { grid-column:1; grid-row:1; }
+.tc-cover { grid-column:1; grid-row:2; }
+.tc-practice { grid-column:1; grid-row:3; }
+.tc-reading { grid-column:1; grid-row:4; }
+.tc-left-space { display:none; }
+.tc-path { grid-column:1; grid-row:5; }
+.msg-bubble { max-width:92%; }
+}
 </style>
 </head>
 <body>
-
 <div id="boot">
-  <div class="boot-sigil"><div class="boot-sigil-inner">✦</div></div>
-  <div class="boot-rule"></div>
-  <div class="boot-title">A Rough Trade Writing School</div>
-  <div class="boot-sub">The Wild Reading</div>
+<div class="boot-sigil"><div class="boot-sigil-inner">✦</div></div>
+<div class="boot-rule"></div>
+<div class="boot-title">A Rough Trade Writing School</div>
+<div class="boot-sub">The Wild Reading</div>
 </div>
-
 <div id="app">
-  <header class="site-header">
-    <span class="header-eyebrow">A Rough Trade Writing School</span>
-    <h1 class="header-title">The <em>Wild</em> Reading</h1>
-    <p class="header-desc">A conversation, then a spread. No countdown. No form. Just talk.</p>
-    <div class="ornament">✦ ✦ ✦</div>
-  </header>
-
-  <div class="chat-area" id="chat-area">
-    <div class="typing-row" id="typing">
-      <div class="typing-bub"><span></span><span></span><span></span></div>
-    </div>
-  </div>
-
-  <div class="input-area">
-    <span class="input-label">Your answer</span>
-    <div class="input-row">
-      <textarea id="user-input" placeholder="Write here…" rows="1"></textarea>
-      <button id="send-btn">Send</button>
-    </div>
-  </div>
-
-  <footer class="site-footer">
-    <a href="https://arough.trade">A Rough Trade Writing School</a> ·
-    <a href="https://arough.trade/chains">The Chains</a> ·
-    <a href="https://stagandbirch.com/collection/wild-magic">The Shop</a> ·
-    <a href="https://patreon.com/jacobtwop">The School</a>
-  </footer>
+<header class="site-header">
+<span class="header-eyebrow">A Rough Trade Writing School</span>
+<h1 class="header-title">The <em>Wild</em> Reading</h1>
+<p class="header-desc">A conversation, then a spread. No countdown. No form. Just talk.</p>
+<div class="ornament">✦ ✦ ✦</div>
+</header>
+<div class="chat-area" id="chat-area">
+<div class="typing-row" id="typing">
+<div class="typing-bub"><span></span><span></span><span></span></div>
 </div>
-
+</div>
+<div class="input-area">
+<span class="input-label">Your answer</span>
+<div class="input-row">
+<textarea id="user-input" placeholder="Write here…" rows="1"></textarea>
+<button id="send-btn">Send</button>
+</div>
+</div>
+<footer class="site-footer">
+<a href="https://artschool.jacobclifton.com">A Rough Trade Writing School</a> ·
+<a href="https://artschool.jacobclifton.com/chains">The Chains</a> ·
+<a href="https://stagandbirch.com/collection/wild-magic">The Shop</a> ·
+<a href="https://patreon.com/jacobtwop">The School</a>
+</footer>
+</div>
 <script>
 const PROXY_URL = '/.netlify/functions/chat';
-const MODEL = 'claude-sonnet-4-5';
-
+const MODEL = 'claude-sonnet-5';
 const SYSTEM = `You are the intake reader for A Rough Trade Writing School — Jacob Clifton's literary writing school. You conduct The Wild Reading: an open, unscripted conversation with a writer that ends in a five-card tarot spread laid specifically for them.
 
 YOUR VOICE:
+
 Literary, specific, warm without sentimentality. You hold contradiction comfortably. You sound like someone who has read widely, thought deeply, and come out willing to tell the complicated truth rather than the easy one. You do not flatter. You do not hype. You ask questions that make the writer think differently about their situation just by answering them.
 
 Em dashes for asides. Short declarative sentences for impact. Varied rhythm — never uniform. Dry wit through phrasing, not announcement. Never: "ensure," "landscape," "leverage," "in today's world," "it's not just X it's Y," or any AI tell. Never oversimplify human experience.
 
 THE CONVERSATION:
+
 This is not a form. You don't ask a numbered list of questions. You have a real conversation — you follow threads, ask follow-ups when something genuinely opens up, and let the writer take you somewhere unexpected. You are building a picture of who this writer is and where they actually are, not collecting answers.
 
 You are looking for five things, but you find them through conversation, not interrogation:
+
 1. What they're working on — and whether they're actually working on it
+
 2. When writing last felt real to them — the specific circumstances
+
 3. The story they tell themselves about why they're not further along
+
 4. What they'd write if they stopped protecting the work
+
 5. What kind of help they actually respond to — structure, permission, company, a mirror, a kick
 
 You don't have to ask about these in order. You don't have to ask about them directly. A good conversation surfaces them without announcing it.
@@ -582,6 +514,7 @@ You don't have to ask about these in order. You don't have to ask about them dir
 When you have a clear enough picture — usually after 6-10 exchanges, use your judgment — tell them you're ready to lay the spread. Say something like "I think I have what I need." Then produce the spread.
 
 WHAT MAKES A GOOD READING:
+
 The cards must not summarize what the writer said. They must go underneath it.
 
 The State card names what's actually true, not what the writer described as their situation. If they said "I'm blocked," the card isn't about being blocked — it's about what the block is protecting.
@@ -595,56 +528,101 @@ The Reading card names one book, essay, or piece of writing — specific title, 
 The Path Forward card names the ART School offer that actually fits where they are. Be direct about the match and specific about why this one and not another.
 
 OFFER ROUTING:
+
 - Chain 1 (The Life) or Chain 8 (Practice): no consistent practice, writing in the margins
+
 - Chain 2 (The Craft): sentences aren't landing, technical insecurity
+
 - Chain 3 (The Secrets): avoids the business side, doesn't know what the work is worth
+
 - Chain 4 (The Eye): can't tell if the work is good, reads too little, needs critical judgment
+
 - Chain 5 (Voice): knows what they want to write but sounds like someone else on the page
+
 - Chain 6 (Narrative): fiction that isn't holding together, structure problems
+
 - Chain 7 (World): building fictional worlds, wants inhabited specificity
+
 - The Herbal/Grimoire/Deck (books): intuitive learners, work best alone, resist structure, respond to oblique approaches
+
 - The School (Patreon): ready for sustained development, want community and feedback
 
 READING PRESCRIPTION GUIDANCE — go for the unexpected right book:
+
 For the perfectionist who can't finish: "The Ongoing Moment" by Geoff Dyer
+
 For the blocked writer who thinks the problem is craft: "A Field Guide to Getting Lost" by Rebecca Solnit
+
 For the writer who sounds like someone else: "The Poetics of Space" by Gaston Bachelard
+
 For the writer who doesn't trust their own material: "Let the Great World Spin" by Colum McCann
+
 For the writer avoiding the hard subject: "The Empathy Exams" by Leslie Jamison
+
 For the fiction writer who can't make their world feel real: "Housekeeping" by Marilynne Robinson
+
 For the writer in a dry spell: "The Rings of Saturn" by W.G. Sebald
+
 For the writer who overthinks: "Pilgrim at Tinker Creek" by Annie Dillard
+
 For the writer who needs permission: any Mary Oliver collected — but specify which one and why
+
 For the writer too close to their material: "The Year of Magical Thinking" by Joan Didion
+
 These are examples. Use your judgment. The right book is the one that's slightly wrong-seeming but exactly right.
 
 CRITICAL: Produce the spread wrapped in [SPREAD_START] and [SPREAD_END] tags. The content between the tags must be valid JSON and nothing else — no preamble, no markdown fences, just the JSON object.
 
 [SPREAD_START]
+
 {
-  "state": {
-    "name": "[Evocative card name — 2-5 words, poetic, specific to this writer — e.g. 'The Unfinished Letter' or 'The Long Argument']",
-    "text": "[2-3 sentences. What is actually true about this writer's state — not what they said, what you heard underneath. Surprising. Specific. No flattery.]"
-  },
-  "covering": {
-    "name": "[Card name for what's covering the voice — names the root, not the symptom]",
-    "text": "[2 sentences. The specific thing underneath the problem they described. The thing that surprises them a little. Warm but unsparing.]"
-  },
-  "practice": {
-    "name": "[Card name for the practice prescription]",
-    "text": "[1-2 sentences. One counterintuitive, specific practice prescription. Not generic. Something slightly unexpected that clicks.]"
-  },
-  "reading": {
-    "name": "[Card name for the reading prescription]",
-    "text": "[2 sentences. The specific book — title and author — and exactly why this one for this writer at this moment. Make it feel slightly unexpected but exactly right.]"
-  },
-  "path": {
-    "name": "[Card name for their path forward]",
-    "text": "[2 sentences. The specific offer and why this one for them right now. Direct.]",
-    "offer": "[one of: chains, books, school]",
-    "chain": "[if offer is chains: specific chain e.g. 'Chain 5: Voice' — otherwise null]"
-  }
+
+"state": {
+
+"name": "[Evocative card name — 2-5 words, poetic, specific to this writer — e.g. 'The Unfinished Letter' or 'The Long Argument']",
+
+"text": "[2-3 sentences. What is actually true about this writer's state — not what they said, what you heard underneath. Surprising. Specific. No flattery.]"
+
+},
+
+"covering": {
+
+"name": "[Card name for what's covering the voice — names the root, not the symptom]",
+
+"text": "[2 sentences. The specific thing underneath the problem they described. The thing that surprises them a little. Warm but unsparing.]"
+
+},
+
+"practice": {
+
+"name": "[Card name for the practice prescription]",
+
+"text": "[1-2 sentences. One counterintuitive, specific practice prescription. Not generic. Something slightly unexpected that clicks.]"
+
+},
+
+"reading": {
+
+"name": "[Card name for the reading prescription]",
+
+"text": "[2 sentences. The specific book — title and author — and exactly why this one for this writer at this moment. Make it feel slightly unexpected but exactly right.]"
+
+},
+
+"path": {
+
+"name": "[Card name for their path forward]",
+
+"text": "[2 sentences. The specific offer and why this one for them right now. Direct.]",
+
+"offer": "[one of: chains, books, school]",
+
+"chain": "[if offer is chains: specific chain e.g. 'Chain 5: Voice' — otherwise null]"
+
 }
+
+}
+
 [SPREAD_END]
 
 START: Open with one sentence — literary, warm, specific. Not an introduction. Just the beginning of a conversation. Then ask your first question.`;
@@ -654,238 +632,222 @@ let spreadGenerated = false;
 let isLoading = false;
 
 const OFFER_URLS = {
-  chains: 'https://arough.trade/chains',
-  books: 'https://stagandbirch.com/collection/wild-magic',
-  school: 'https://patreon.com/jacobtwop'
+chains: 'https://artschool.jacobclifton.com/chains',
+books: 'https://stagandbirch.com/collection/wild-magic',
+school: 'https://patreon.com/jacobtwop'
 };
 
 const OFFER_LABELS = {
-  chains: 'Find your Chain →',
-  books: 'Visit the Shop →',
-  school: 'Join the School →'
+chains: 'Find your Chain →',
+books: 'Visit the Shop →',
+school: 'Join the School →'
 };
 
+function escapeHtml(str) {
+return str
+.replace(/&/g, '&amp;')
+.replace(/</g, '&lt;')
+.replace(/>/g, '&gt;')
+.replace(/"/g, '&quot;')
+.replace(/'/g, '&#39;');
+}
+
 function scrollBottom() {
-  const area = document.getElementById('chat-area');
-  requestAnimationFrame(() => { area.scrollTop = area.scrollHeight; });
+const area = document.getElementById('chat-area');
+requestAnimationFrame(() => { area.scrollTop = area.scrollHeight; });
 }
 
 function showTyping(on) {
-  document.getElementById('typing').className = 'typing-row' + (on ? ' on' : '');
-  if (on) scrollBottom();
+document.getElementById('typing').className = 'typing-row' + (on ? ' on' : '');
+if (on) scrollBottom();
 }
 
 function addMsg(role, text) {
-  const area = document.getElementById('chat-area');
-  const typing = document.getElementById('typing');
-  const div = document.createElement('div');
-  div.className = 'msg ' + (role === 'assistant' ? 'school' : 'writer');
-  const lbl = document.createElement('div');
-  lbl.className = 'msg-label';
-  lbl.textContent = role === 'assistant' ? 'The School' : 'You';
-  const bub = document.createElement('div');
-  bub.className = 'msg-bubble';
-  bub.innerHTML = text.replace(/\n/g, '<br>');
-  div.appendChild(lbl);
-  div.appendChild(bub);
-  area.insertBefore(div, typing);
-  scrollBottom();
+const area = document.getElementById('chat-area');
+const typing = document.getElementById('typing');
+const div = document.createElement('div');
+div.className = 'msg ' + (role === 'assistant' ? 'school' : 'writer');
+const lbl = document.createElement('div');
+lbl.className = 'msg-label';
+lbl.textContent = role === 'assistant' ? 'The School' : 'You';
+const bub = document.createElement('div');
+bub.className = 'msg-bubble';
+bub.innerHTML = escapeHtml(text).replace(/\n/g, '<br>');
+div.appendChild(lbl);
+div.appendChild(bub);
+area.insertBefore(div, typing);
+scrollBottom();
 }
 
 function extractSpread(text) {
-  const s = text.search(/\[SPREAD_START\]/i);
-  const e = text.search(/\[SPREAD_END\]/i);
-  if (s !== -1 && e !== -1 && e > s) {
-    return {
-      json: text.slice(s + 13, e).trim(),
-      before: text.slice(0, s).trim(),
-      after: text.slice(e + 11).trim()
-    };
-  }
-  return null;
+const s = text.search(/\[SPREAD_START\]/i);
+const e = text.search(/\[SPREAD_END\]/i);
+if (s !== -1 && e !== -1 && e > s) {
+return {
+json: text.slice(s + 14, e).trim(),
+before: text.slice(0, s).trim(),
+after: text.slice(e + 12).trim()
+};
+}
+return null;
 }
 
 function makeCard(cls, posLabel, cardData, isLink, linkUrl, linkLabel) {
-  const el = isLink ? document.createElement('a') : document.createElement('div');
-  el.className = 'tc-card ' + cls;
-  if (isLink) {
-    el.href = linkUrl;
-    el.target = '_blank';
-    el.rel = 'noopener';
-  }
-
-  const pos = document.createElement('div');
-  pos.className = 'card-pos';
-  pos.textContent = posLabel;
-  el.appendChild(pos);
-
-  const name = document.createElement('div');
-  name.className = 'card-name';
-  name.textContent = cardData.name || '';
-  el.appendChild(name);
-
-  const rule = document.createElement('div');
-  rule.className = 'card-rule';
-  el.appendChild(rule);
-
-  const text = document.createElement('div');
-  text.className = 'card-text';
-  let content = cardData.text || '';
-  if (cardData.chain) content += '\n\n' + cardData.chain + '.';
-  text.textContent = content;
-  el.appendChild(text);
-
-  if (isLink && linkLabel) {
-    const cta = document.createElement('span');
-    cta.className = 'card-cta';
-    cta.textContent = linkLabel;
-    el.appendChild(cta);
-  }
-
-  return el;
+const el = isLink ? document.createElement('a') : document.createElement('div');
+el.className = 'tc-card ' + cls;
+if (isLink) {
+el.href = linkUrl;
+el.target = '_blank';
+el.rel = 'noopener';
+}
+const pos = document.createElement('div');
+pos.className = 'card-pos';
+pos.textContent = posLabel;
+el.appendChild(pos);
+const name = document.createElement('div');
+name.className = 'card-name';
+name.textContent = cardData.name || '';
+el.appendChild(name);
+const rule = document.createElement('div');
+rule.className = 'card-rule';
+el.appendChild(rule);
+const text = document.createElement('div');
+text.className = 'card-text';
+let content = cardData.text || '';
+if (cardData.chain) content += '\n\n' + cardData.chain + '.';
+text.textContent = content;
+el.appendChild(text);
+if (isLink && linkLabel) {
+const cta = document.createElement('span');
+cta.className = 'card-cta';
+cta.textContent = linkLabel;
+el.appendChild(cta);
+}
+return el;
 }
 
 function buildSpread(data) {
-  const wrap = document.createElement('div');
-  wrap.className = 'spread-wrap';
-
-  const lbl = document.createElement('div');
-  lbl.className = 'spread-label';
-  lbl.innerHTML = '<div class="spread-label-line"></div><span>Your Reading</span><div class="spread-label-line r"></div>';
-  wrap.appendChild(lbl);
-
-  const cross = document.createElement('div');
-  cross.className = 'tarot-cross';
-
-  // Row 1: Practice (top of cross)
-  cross.appendChild(makeCard('tc-practice', 'The Practice', data.practice));
-
-  // Row 2: Left space | State (center) | Reading (right arm)
-  const leftSpace = document.createElement('div');
-  leftSpace.className = 'tc-card tc-left-space';
-  leftSpace.innerHTML = '<span class="sigil-mark">✦</span>';
-  cross.appendChild(leftSpace);
-
-  cross.appendChild(makeCard('tc-state', 'Your State', data.state));
-  cross.appendChild(makeCard('tc-reading', 'The Reading', data.reading));
-
-  // Row 3: Covering (below state)
-  cross.appendChild(makeCard('tc-cover', 'What Covers It', data.covering));
-
-  // Row 4: Path (bottom)
-  const offerKey = data.path.offer || 'chains';
-  cross.appendChild(makeCard('tc-path', 'The Path Forward', data.path, true, OFFER_URLS[offerKey], OFFER_LABELS[offerKey]));
-
-  wrap.appendChild(cross);
-  return wrap;
+const wrap = document.createElement('div');
+wrap.className = 'spread-wrap';
+const lbl = document.createElement('div');
+lbl.className = 'spread-label';
+lbl.innerHTML = '<div class="spread-label-line"></div><span>Your Reading</span><div class="spread-label-line r"></div>';
+wrap.appendChild(lbl);
+const cross = document.createElement('div');
+cross.className = 'tarot-cross';
+// Row 1: Practice (top of cross)
+cross.appendChild(makeCard('tc-practice', 'The Practice', data.practice));
+// Row 2: Left space | State (center) | Reading (right arm)
+const leftSpace = document.createElement('div');
+leftSpace.className = 'tc-card tc-left-space';
+leftSpace.innerHTML = '<span class="sigil-mark">✦</span>';
+cross.appendChild(leftSpace);
+cross.appendChild(makeCard('tc-state', 'Your State', data.state));
+cross.appendChild(makeCard('tc-reading', 'The Reading', data.reading));
+// Row 3: Covering (below state)
+cross.appendChild(makeCard('tc-cover', 'What Covers It', data.covering));
+// Row 4: Path (bottom)
+const offerKey = data.path.offer || 'chains';
+cross.appendChild(makeCard('tc-path', 'The Path Forward', data.path, true, OFFER_URLS[offerKey], OFFER_LABELS[offerKey]));
+wrap.appendChild(cross);
+return wrap;
 }
 
 function insertSpread(jsonStr) {
-  const area = document.getElementById('chat-area');
-  const typing = document.getElementById('typing');
-
-  let parsed;
-  try {
-    const firstBrace = jsonStr.indexOf('{');
-    const lastBrace = jsonStr.lastIndexOf('}');
-    if (firstBrace === -1 || lastBrace === -1) throw new Error('No JSON found');
-    parsed = JSON.parse(jsonStr.slice(firstBrace, lastBrace + 1));
-  } catch(e) {
-    addMsg('assistant', 'The spread is ready, but something went wrong rendering it. ' + e.message);
-    console.error('Parse error:', e, jsonStr);
-    return;
-  }
-
-  const spreadEl = buildSpread(parsed);
-  area.insertBefore(spreadEl, typing);
-  scrollBottom();
+const area = document.getElementById('chat-area');
+const typing = document.getElementById('typing');
+let parsed;
+try {
+const firstBrace = jsonStr.indexOf('{');
+const lastBrace = jsonStr.lastIndexOf('}');
+if (firstBrace === -1 || lastBrace === -1) throw new Error('No JSON found');
+parsed = JSON.parse(jsonStr.slice(firstBrace, lastBrace + 1));
+} catch(e) {
+addMsg('assistant', 'The spread is ready, but something went wrong rendering it. ' + e.message);
+console.error('Parse error:', e, jsonStr);
+return;
+}
+const spreadEl = buildSpread(parsed);
+area.insertBefore(spreadEl, typing);
+scrollBottom();
 }
 
 async function send(userText, silent) {
-  if (isLoading) return;
-  isLoading = true;
-  document.getElementById('send-btn').disabled = true;
-
-  if (userText && !silent) {
-    history.push({ role: 'user', content: userText });
-    addMsg('user', userText);
-  } else if (userText && silent) {
-    history.push({ role: 'user', content: userText });
-  }
-
-  showTyping(true);
-
-  try {
-    const res = await fetch(PROXY_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ model: MODEL, max_tokens: 1500, system: SYSTEM, messages: history })
-    });
-
-    const data = await res.json();
-    showTyping(false);
-
-    if (data.error) {
-      addMsg('assistant', 'Something went wrong. ' + (data.error.message || ''));
-      isLoading = false;
-      document.getElementById('send-btn').disabled = false;
-      return;
-    }
-
-    const block = data.content && data.content.find(b => b.type === 'text');
-    if (!block) throw new Error('no text');
-    const raw = block.text;
-
-    const spread = extractSpread(raw);
-    if (spread && !spreadGenerated) {
-      spreadGenerated = true;
-      if (spread.before) addMsg('assistant', spread.before);
-      history.push({ role: 'assistant', content: raw });
-      setTimeout(() => {
-        insertSpread(spread.json);
-        if (spread.after) setTimeout(() => addMsg('assistant', spread.after), 500);
-      }, 400);
-    } else {
-      addMsg('assistant', raw);
-      history.push({ role: 'assistant', content: raw });
-    }
-
-  } catch(err) {
-    showTyping(false);
-    addMsg('assistant', 'Something interrupted the reading. Try again in a moment.');
-    console.error(err);
-  }
-
-  isLoading = false;
-  document.getElementById('send-btn').disabled = false;
+if (isLoading) return;
+isLoading = true;
+document.getElementById('send-btn').disabled = true;
+if (userText && !silent) {
+history.push({ role: 'user', content: userText });
+addMsg('user', userText);
+} else if (userText && silent) {
+history.push({ role: 'user', content: userText });
+}
+showTyping(true);
+try {
+const res = await fetch(PROXY_URL, {
+method: 'POST',
+headers: { 'Content-Type': 'application/json' },
+body: JSON.stringify({ model: MODEL, max_tokens: 2000, system: SYSTEM, messages: history })
+});
+const data = await res.json();
+showTyping(false);
+if (data.error) {
+addMsg('assistant', 'Something went wrong. ' + (data.error.message || ''));
+isLoading = false;
+document.getElementById('send-btn').disabled = false;
+return;
+}
+const block = data.content && data.content.find(b => b.type === 'text');
+if (!block) throw new Error('no text');
+const raw = block.text;
+const spread = extractSpread(raw);
+if (spread && !spreadGenerated) {
+spreadGenerated = true;
+if (spread.before) addMsg('assistant', spread.before);
+history.push({ role: 'assistant', content: raw });
+setTimeout(() => {
+insertSpread(spread.json);
+if (spread.after) setTimeout(() => addMsg('assistant', spread.after), 500);
+}, 400);
+} else {
+addMsg('assistant', raw);
+history.push({ role: 'assistant', content: raw });
+}
+} catch(err) {
+showTyping(false);
+addMsg('assistant', 'Something interrupted the reading. Try again in a moment.');
+console.error(err);
+}
+isLoading = false;
+document.getElementById('send-btn').disabled = false;
 }
 
 const input = document.getElementById('user-input');
 input.addEventListener('input', function() {
-  this.style.height = 'auto';
-  this.style.height = Math.min(this.scrollHeight, 140) + 'px';
+this.style.height = 'auto';
+this.style.height = Math.min(this.scrollHeight, 140) + 'px';
 });
 input.addEventListener('keydown', function(e) {
-  if (e.key === 'Enter' && !e.shiftKey) {
-    e.preventDefault();
-    const v = this.value.trim();
-    if (v) { this.value = ''; this.style.height = 'auto'; send(v, false); }
-  }
+if (e.key === 'Enter' && !e.shiftKey) {
+e.preventDefault();
+const v = this.value.trim();
+if (v) { this.value = ''; this.style.height = 'auto'; send(v, false); }
+}
 });
 document.getElementById('send-btn').addEventListener('click', () => {
-  const v = input.value.trim();
-  if (v) { input.value = ''; input.style.height = 'auto'; send(v, false); }
+const v = input.value.trim();
+if (v) { input.value = ''; input.style.height = 'auto'; send(v, false); }
 });
 
 // Boot
 setTimeout(() => {
-  document.getElementById('boot').classList.add('out');
-  setTimeout(() => {
-    document.getElementById('boot').style.display = 'none';
-    document.getElementById('app').classList.add('visible');
-    history.push({ role: 'user', content: '[SYSTEM: A writer has arrived. Begin with one sentence — literary, warm, the start of a real conversation. Then ask your first question naturally.]' });
-    send(null, true);
-  }, 1200);
+document.getElementById('boot').classList.add('out');
+setTimeout(() => {
+document.getElementById('boot').style.display = 'none';
+document.getElementById('app').classList.add('visible');
+history.push({ role: 'user', content: '[SYSTEM: A writer has arrived. Begin with one sentence — literary, warm, the start of a real conversation. Then ask your first question naturally.]' });
+send(null, true);
+}, 1200);
 }, 2800);
 </script>
 </body>
